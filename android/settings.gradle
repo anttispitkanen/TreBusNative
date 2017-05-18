@@ -1,0 +1,3 @@
+rootProject.name = 'TreBusNative'
+
+include ':app'
