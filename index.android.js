@@ -17,6 +17,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+// TESTING
+import Header from './src/components/Header';
+
 export default class TreBusNative extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +76,8 @@ export default class TreBusNative extends Component {
 
     return(
       <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center'}}>
+
+        <Header />
         
 
         <TouchableHighlight 
