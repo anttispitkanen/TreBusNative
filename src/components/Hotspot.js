@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
-        margin: 5,
+        marginTop: 5,
+        marginBottom: 5,
         shadowColor: 'black',
         shadowRadius: 1,
-        shadowOffset: {width: 1, height: 1},
-        shadowOpacity: .8
+        shadowOffset: {width: 0, height: 0},
+        shadowOpacity: .7
     },
     hotspotTitle: {
         fontSize: 20

@@ -64,5 +64,15 @@ const spots = [
         name: 'Rautatieasema',
         thereIn: '23 minutes',
         departure: '13.56'
+    },
+    {
+        name: 'Rautatieasema',
+        thereIn: '23 minutes',
+        departure: '13.56'
+    },
+    {
+        name: 'Rautatieasema',
+        thereIn: '23 minutes',
+        departure: '13.56'
     }
 ]

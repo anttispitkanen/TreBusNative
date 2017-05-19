@@ -13,6 +13,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Hotspots from './components/Hotspots';
 import Info from './components/Info';
+import InfoButton from './components/InfoButton';
 
 // export default class Main extends Component {
     
@@ -31,21 +32,19 @@ const styles = StyleSheet.create({
 
 class MainScreen extends Component {
     static navigationOptions = {
-        title: 'Home'
+        title: 'TreBus'
     }
     
     render() {
-        const { navigate } = this.props.navigation;
+        // const { navigate } = this.props.navigation;
 
         return(
             <ScrollView style={styles.main}>
                 <Header />
                 <Hotspots />
+                
+                <InfoButton {...this.props} />
                 <Footer />
-                <Button
-                    onPress={() => navigate('Info')}
-                    title="Info"
-                />
             </ScrollView>
         )
 

@@ -11,8 +11,6 @@ const Footer = () => (
 
 const styles = StyleSheet.create({
     footer: {
-        
-        marginTop: 20,
         marginBottom: 20,
         textAlign: 'center'
     }

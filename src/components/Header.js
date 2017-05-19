@@ -9,11 +9,6 @@ import {
 
 const Header = () => (
     <View style={styles.container}>
-        <TouchableHighlight style={styles.info}
-              onPress={() => alert('jaa infoa kaipaisit? :D')}
-        >
-          <Text>?</Text>
-        </TouchableHighlight>
         <Text style={styles.h1}>TreBus</Text>
         <Text style={styles.h2}>The fastest bus app in Tampere</Text>
     </View>
@@ -43,18 +38,6 @@ const styles = StyleSheet.create({
     color: '#FBFEF9',
     fontStyle: 'italic',
     textAlign: 'center'
-  },
-  info: {
-    // flex: 0,
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    padding: 5,
-    zIndex: 9,
-    marginTop: 20,
-    marginRight: 10,
-    backgroundColor: '#FBFEF9',
-    borderRadius: 100
   }
 
 });
