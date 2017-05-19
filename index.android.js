@@ -17,9 +17,20 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-// TESTING
-import Header from './src/components/Header';
 
+import Main from './src/Main';
+
+export default class TreBusNative extends Component {
+  render() {
+    return (
+      <Main />
+    );
+  }
+}
+
+
+AppRegistry.registerComponent('TreBusNative', () => TreBusNative);
+/*
 export default class TreBusNative extends Component {
   constructor(props) {
     super(props);
@@ -76,8 +87,6 @@ export default class TreBusNative extends Component {
 
     return(
       <View style={{flex: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-
-        <Header />
         
 
         <TouchableHighlight 
@@ -177,17 +186,4 @@ const styles = StyleSheet.create({
 
 AppRegistry.registerComponent('TreBusNative', () => TreBusNative);
 
-{/*<Greeting style={{color: 'red'}} name='Pötkö' />
-<Greeting style={{color: 'green'}} name='Pömpylä' />
-<Greeting style={{color: 'blue'}} name='Pöllö-Vaari' />*/}
-
-// style={styles.container}
-
-// {this.greetedPeople()}
-
-{/*<TextInput
-          style={{height: 40}}
-          placeholder="Who do we greet? :D"
-          ref="greeter"
-          onSubmitEditing={(event) => this.addGreetedPeople(event)}
-        />*/}
+*/

@@ -14,12 +14,7 @@ import Footer from './components/Footer';
 import Hotspots from './components/Hotspots';
 import Info from './components/Info';
 import InfoButton from './components/InfoButton';
-
-// export default class Main extends Component {
-    
-// }
-
-
+import LocationAndHotspotsContainer from './components/LocationAndHotspotsContainer';
 
 
 
@@ -41,8 +36,7 @@ class MainScreen extends Component {
         return(
             <ScrollView style={styles.main}>
                 <Header />
-                <Hotspots />
-                
+                <LocationAndHotspotsContainer />
                 <InfoButton {...this.props} />
                 <Footer />
             </ScrollView>

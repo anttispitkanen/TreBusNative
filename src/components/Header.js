@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#A31621',
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 0},
-    shadowRadius: 2,
-    shadowOpacity: .8
+    shadowRadius: 1,
+    shadowOpacity: .7
   },
   h1: {
     color: '#FBFEF9',

@@ -29,11 +29,13 @@ export default class Info extends Component {
                      If you want you can check out the source code on GitHub:
                 </Text>
 
-                <Button 
-                    title="See source"
-                    onPress={() => Linking.openURL('https://github.com/anttispitkanen')}
-                />
-                
+                <View style={styles.buttonContainer}>
+                    <Button 
+                        title="See source"
+                        onPress={() => Linking.openURL('https://github.com/anttispitkanen')}
+                    />
+                </View>
+
                 <Text style={styles.p}>-Antti Pitkänen</Text>
                 <Text style={styles.p}>(This app is a personal project of mine and not intended for mass use.)</Text>
             </View>
@@ -62,6 +64,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginLeft: 20,
         marginRight: 20
+    },
+    buttonContainer: {
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 20
     }
 })
 

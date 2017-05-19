@@ -7,21 +7,44 @@ import {
 } from 'react-native';
 
 import Hotspot from './Hotspot';
+import AddHotspot from './AddHotspot';
+import MyLocation from './MyLocation';
 
 
 export default class Hotspots extends Component {
+
     render() {
+        if (!this.props.address) {
+            return(
+                <View style={styles.hotspots}>
+                    {spots.map((s, i) => {
+                        return (
+                            <Hotspot 
+                                key={i} 
+                                thereIn="Waiting for location..." 
+                                name={s.name}
+                            />
+                        )
+                    })}
+                    <AddHotspot />
+                </View>
+            )
+        }
+
         return (
             <View style={styles.hotspots}>
                 {spots.map((s, i) => {
                     return (
-                        <Hotspot
-                            key={i}
+                        <Hotspot 
+                            key={i} 
                             {...s}
+                            address={this.props.address}
                         />
                     )
                 })}
+                <AddHotspot />
             </View>
+            
         )
     }
 }

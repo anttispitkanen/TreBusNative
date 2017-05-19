@@ -26,6 +26,7 @@ export default class InfoButton extends Component {
 
 const styles = StyleSheet.create({
     infoButton: {
-        margin: 30
+        margin: 30,
+        flex: 0
     }
 })
