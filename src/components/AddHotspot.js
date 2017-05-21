@@ -7,11 +7,13 @@ import {
 
 export default class AddHotspot extends Component {
     render() {
+        const { navigate } = this.props.navigation;
+
         return(
             <View style={styles.container}>
                 <Button
                     title="Add Hotspot"
-                    onPress={() => alert('added :DD')}
+                    onPress={() => navigate('AddHotspotForm')}
                 />
             </View>
         )

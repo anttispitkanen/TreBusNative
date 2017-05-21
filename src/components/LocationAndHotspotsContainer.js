@@ -34,7 +34,7 @@ export default class LocationAndHotspotsContainer extends Component {
                     latitude={this.state.latitude}
                     longitude={this.state.longitude}
                 />
-                <Hotspots address={this.state.address} />
+                <Hotspots address={this.state.address} {...this.props} />
             </View>
         )
     }

@@ -3,7 +3,9 @@ import {
     View,
     ScrollView,
     Text,
-    StyleSheet
+    StyleSheet,
+    AsyncStorage,
+    Button
 } from 'react-native';
 
 import Hotspot from './Hotspot';
@@ -11,12 +13,51 @@ import AddHotspot from './AddHotspot';
 import MyLocation from './MyLocation';
 
 
+const STORAGE_KEY = '@TreBus:Hotspots';
+
+
 export default class Hotspots extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            hotspots: null
+        }
+    }
+
+    async componentDidMount() {
+        try {
+            let value = await AsyncStorage.getItem(STORAGE_KEY);
+            if (!value) {
+                await AsyncStorage.setItem(STORAGE_KEY, '[]');
+                console.log('ei ollut, mutta nyt on');
+                value = await AsyncStorage.getItem(STORAGE_KEY);
+            }
+            this.setState({
+                hotspots: JSON.parse(value)
+            })
+            // alert('nyt on ' + JSON.stringify(this.state.hotspots))
+        } catch (error) {
+            alert('kammottava virhe!');
+        }
+    }
+
+    addStuff() {
+        let ans = 'mitä laitetaan? :D';
+        let hotspots = this.state.hotspots;
+        hotspots.push(ans);
+        alert(JSON.stringify(hotspots));
+    }
+
 
     render() {
         if (!this.props.address) {
             return(
                 <View style={styles.hotspots}>
+                    <Button
+                        title="laitetaan jotain"
+                        onPress={() => this.addStuff()}
+                    />
                     {spots.map((s, i) => {
                         return (
                             <Hotspot 
@@ -26,7 +67,7 @@ export default class Hotspots extends Component {
                             />
                         )
                     })}
-                    <AddHotspot />
+                    <AddHotspot {...this.props} />
                 </View>
             )
         }
@@ -42,7 +83,7 @@ export default class Hotspots extends Component {
                         />
                     )
                 })}
-                <AddHotspot />
+                <AddHotspot {...this.props} />
             </View>
             
         )

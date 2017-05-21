@@ -15,7 +15,7 @@ import Hotspots from './components/Hotspots';
 import Info from './components/Info';
 import InfoButton from './components/InfoButton';
 import LocationAndHotspotsContainer from './components/LocationAndHotspotsContainer';
-
+import AddHotspotForm from './components/AddHotspotForm';
 
 
 const styles = StyleSheet.create({
@@ -36,7 +36,7 @@ class MainScreen extends Component {
         return(
             <ScrollView style={styles.main}>
                 <Header />
-                <LocationAndHotspotsContainer />
+                <LocationAndHotspotsContainer {...this.props} />
                 <InfoButton {...this.props} />
                 <Footer />
             </ScrollView>
@@ -47,7 +47,8 @@ class MainScreen extends Component {
 
 const Main = StackNavigator({
     Main: { screen: MainScreen },
-    Info: { screen: Info }
+    Info: { screen: Info },
+    AddHotspotForm: { screen: AddHotspotForm }
 })
 
 
