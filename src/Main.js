@@ -7,7 +7,7 @@ import {
     Button
  } from 'react-native';
 
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -20,14 +20,17 @@ import AddHotspotForm from './components/AddHotspotForm';
 
 const styles = StyleSheet.create({
     main: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FBFEF9'
     }
 })
 
 
 class MainScreen extends Component {
     static navigationOptions = {
-        title: 'TreBus'
+        // title: 'TreBus',
+        title: null,
+        header: null
     }
     
     render() {
@@ -36,7 +39,7 @@ class MainScreen extends Component {
         return(
             <ScrollView style={styles.main}>
                 <Header />
-                <LocationAndHotspotsContainer {...this.props} />
+                <LocationAndHotspotsContainer />
                 <InfoButton {...this.props} />
                 <Footer />
             </ScrollView>
@@ -48,8 +51,13 @@ class MainScreen extends Component {
 const Main = StackNavigator({
     Main: { screen: MainScreen },
     Info: { screen: Info },
-    AddHotspotForm: { screen: AddHotspotForm }
+    // AddHotspotForm: { screen: AddHotspotForm }
 })
+
+export default Main;
+
+
+{/*<LocationAndHotspotsContainer {...this.props} />*/}
 
 
 /*class HomeScreen extends Component {
@@ -106,4 +114,3 @@ const Main = StackNavigator({
     Chat: { screen: ChatScreen }
 })*/
 
-export default Main;

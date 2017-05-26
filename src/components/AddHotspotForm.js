@@ -4,21 +4,84 @@ import {
     View,
     Text,
     TextInput,
-    StyleSheet
+    StyleSheet,
+    AsyncStorage
 } from 'react-native';
 
 
-export default class AddHotspotForm extends Component {
 
-    addNewHotspot() {
-        alert(`added hotspot\n name: ${this.refs.name._lastNativeText}\n address: ${this.refs.address._lastNativeText}`);
-        this.props.navigation.goBack();
+
+const STORAGE_KEY = '@TreBus:Hotspots';
+
+
+export default class AddHotspotForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            hotspots: null
+        }
     }
+
+    async componentDidMount() {
+        try {
+            let value = await AsyncStorage.getItem(STORAGE_KEY);
+            this.setState({
+                hotspots: JSON.parse(value)
+            })
+        } catch (error) {
+            alert('tapahtui virhe :D')
+        }
+    }
+
+    async addNewHotspot() {
+        // alert(`added hotspot\n name: ${this.refs.name._lastNativeText}\n address: ${this.refs.address._lastNativeText}`);
+        const name = this.refs.name._lastNativeText;
+        const address = this.refs.address._lastNativeText;
+
+        const coords = await this.fetchCoordinatesForHotspot(address);
+
+        // let hotspots = !this.state.hotspots ? [] : this.state.hotspots;
+        // hotspots.push(name + ': ' + address + ': ' + coords);
+        // await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(hotspots));
+
+        const newHotspot = {
+            name: name,
+            address: address,
+            coords: coords
+        }
+
+        // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
+        // to avoid adding duplicates
+
+        this.props.added(newHotspot);
+        
+        this.refs.name.clear();
+        this.refs.address.clear();
+
+        // this.props.navigation.goBack();
+    }
+
+
+    async fetchCoordinatesForHotspot(address) {
+        const formattedAddress = encodeURIComponent(address);
+        const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=geocode&format=json&key=${formattedAddress}&epsg_out=wgs84`;
+
+        try {
+            const response = await fetch(url);
+            const responseJSON = await response.json();
+            const coords = responseJSON[0].coords;
+            return coords;
+        } catch (error) {
+            alert('Ei kelpaa! :DD');
+        }
+
+    }
+
 
     cancel() {
         this.refs.name.clear();
         this.refs.address.clear();
-        this.props.navigation.goBack();
+        // this.props.navigation.goBack();
     }
 
     render() {
@@ -31,12 +94,14 @@ export default class AddHotspotForm extends Component {
                     style={styles.textInput}
                     placeholder="Name"
                     ref="name"
+                    autoCorrect={false}
                 />
 
                 <TextInput
                     style={styles.textInput}
                     placeholder="Address"
                     ref="address"
+                    autoCorrect={false}
                 />
 
                 <View style={styles.buttonContainer}>

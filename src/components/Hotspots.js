@@ -10,6 +10,7 @@ import {
 
 import Hotspot from './Hotspot';
 import AddHotspot from './AddHotspot';
+import AddHotspotForm from './AddHotspotForm';
 import MyLocation from './MyLocation';
 
 
@@ -25,9 +26,10 @@ export default class Hotspots extends Component {
         }
     }
 
-    async componentDidMount() {
+    async componentWillMount() {
         try {
             let value = await AsyncStorage.getItem(STORAGE_KEY);
+            // value = null; // UNCOMMENT THIS TO RESET ASYNCSTORAGE UPON REFRESH
             if (!value) {
                 await AsyncStorage.setItem(STORAGE_KEY, '[]');
                 console.log('ei ollut, mutta nyt on');
@@ -37,53 +39,97 @@ export default class Hotspots extends Component {
                 hotspots: JSON.parse(value)
             })
             // alert('nyt on ' + JSON.stringify(this.state.hotspots))
+
+            // this.setState({
+            //     hotspots: ['yy', 'kaa', 'koo']
+            // })
         } catch (error) {
             alert('kammottava virhe!');
         }
     }
 
-    addStuff() {
-        let ans = 'mitä laitetaan? :D';
+    async watchaGot() {
+        try {
+            let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
+            alert(hotspots);
+        } catch (error) {
+            alert('tapahtui virhe!!!');
+        }
+        
+    }
+
+    async fetchHotspots() {
+        let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
+        // return JSON.parse(hotspots);
+        this.setState({
+            hotspots: hotspots
+        })
+    }
+
+
+    // async hotspotAdded(name) {
+    //     alert(`Added ${name}!`)
+    //     await this.fetchHotspots();
+    // }
+
+    hotspotAdded(newHotspot) {
         let hotspots = this.state.hotspots;
-        hotspots.push(ans);
-        alert(JSON.stringify(hotspots));
+        hotspots.push(newHotspot);
+        this.setState({
+            hotspots: hotspots
+        })
+        this.saveHotspotsToStorage();
+    }
+
+    async saveHotspotsToStorage() {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state.hotspots));
     }
 
 
     render() {
-        if (!this.props.address) {
+        let hotspots = this.state.hotspots;
+
+        if(!hotspots) {return <Text style={{textAlign: 'center'}}>Waiting...</Text>};
+
+        if (!this.props.startCoords) {
             return(
                 <View style={styles.hotspots}>
-                    <Button
-                        title="laitetaan jotain"
-                        onPress={() => this.addStuff()}
-                    />
-                    {spots.map((s, i) => {
-                        return (
+                    {hotspots.map((hs, i) => {
+                        return(
                             <Hotspot 
-                                key={i} 
-                                thereIn="Waiting for location..." 
-                                name={s.name}
+                                key={i}
+                                name={hs.name}
+                                destCoords={hs.coords}
+                                waitingForLocation="Waiting for location..." 
                             />
                         )
                     })}
-                    <AddHotspot {...this.props} />
+                    
+                    <AddHotspotForm 
+                        added={(name) => this.hotspotAdded(name)}
+                    />
+                    
                 </View>
             )
         }
 
         return (
             <View style={styles.hotspots}>
-                {spots.map((s, i) => {
-                    return (
+                {hotspots.map((hs, i) => {
+                    return(
                         <Hotspot 
-                            key={i} 
-                            {...s}
-                            address={this.props.address}
+                            key={i}
+                            name={hs.name}
+                            startCoords={this.props.startCoords}
+                            destCoords={hs.coords}
                         />
                     )
                 })}
-                <AddHotspot {...this.props} />
+
+                <AddHotspotForm 
+                    added={(name) => this.hotspotAdded(name)}
+                />
+                
             </View>
             
         )
@@ -113,30 +159,28 @@ const styles = StyleSheet.create({
 })
 
 
-const spots = [
-    {
-        name: 'Koti',
-        thereIn: '10 minutes',
-        departure: '10.00'
-    },
-    {
-        name: 'Vincit',
-        thereIn: '31 minutes',
-        departure: '8.06'
-    },
-    {
-        name: 'Rautatieasema',
-        thereIn: '23 minutes',
-        departure: '13.56'
-    },
-    {
-        name: 'Rautatieasema',
-        thereIn: '23 minutes',
-        departure: '13.56'
-    },
-    {
-        name: 'Rautatieasema',
-        thereIn: '23 minutes',
-        departure: '13.56'
-    }
-]
+
+
+/*{spots.map((s, i) => {
+    return (
+        <Hotspot 
+            key={i} 
+            thereIn="Waiting for location..." 
+            name={s.name}
+        />
+    )
+})}*/
+
+/*{spots.map((s, i) => {
+    return (
+        <Hotspot 
+            key={i} 
+            {...s}
+            address={this.props.address}
+        />
+    )
+})}*/
+
+
+
+{/*<AddHotspot added={(name) => this.hotspotAdded(name)} {...this.props} />*/}

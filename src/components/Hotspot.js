@@ -2,27 +2,128 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 
+import Utils from '../utils/Utils';
+
 export default class Hotspot extends Component {
-    
+    constructor(props) {
+        super(props);
+        this.state = {
+            thereIn: null,
+            departureTime: null,
+            busNumber: null,
+            departAddress: null,
+            arrivalTime: null,
+            distance: null
+        }
+    }
+
+    componentDidMount() {
+        this.fetchRoute();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps !== this.props) {
+            this.fetchRoute();
+        }
+    }
+
+
+    async fetchRoute() {
+        const startCoords = this.props.startCoords;
+        if (startCoords) {
+            const destCoords = this.props.destCoords;
+            const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=route&from=${startCoords}&to=${destCoords}&show=1&Detail=limited&epsg_in=wgs84`;
+        
+            try {
+                // fetch here
+                // alert('nyt olis lähtökin tiedossa :D');
+                const response = await fetch(url);
+                const responseJSON = await response.json();
+                const routeData = responseJSON[0][0];
+                console.log(routeData);
+
+                this.setState({
+                    thereIn: Utils.parseMinsToArrival(routeData),
+                    departureTime: Utils.parseDeparture(routeData),
+                    busNumber: Utils.parseLineNum(routeData),
+                    departAddress: Utils.parseStartingPoint(routeData),
+                    arrivalTime: Utils.parseArrival(routeData),
+                    distance: Utils.parseDistance(routeData)
+                })
+
+                console.log(this.state);
+                
+
+            } catch (error) {
+                alert('joku meni vikaan kun haettiin reittiä');
+                console.log(error);
+                
+            }
+        }
+        
+    }
+
+
     render() {
-        if (!this.props.thereIn || !this.props.departure) {
+
+        if(this.props.waitingForLocation) {
             return(
                 <View style={styles.hotspot}>
-                    <Text style={styles.hotspotTitle}>{this.props.name}</Text>
-                    <Text>Waiting for location...</Text>
+                    <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+                    
+                    <View style={styles.hotspotTextContainer}>
+                        <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                        <Text>{this.props.waitingForLocation}</Text>
+                    </View>
                 </View>
             )
         }
 
+        if(
+            this.state.thereIn === null ||
+            this.state.departureTime === null ||
+            this.state.busNumber === null ||
+            this.state.departAddress === null ||
+            this.state.arrivalTime === null ||
+            this.state.distance === null
+        ) {
+            return(
+                <View style={styles.hotspot}>
+                    
+                    <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+
+                    <View style={styles.hotspotTextContainer}>
+                        <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                        <Text>Fetching route...</Text>
+                    </View>
+                </View>
+            )
+        }
+
+        const hnum = this.state.thereIn.hoursNum;
+        const h = this.state.thereIn.hoursText;
+        const mnum = this.state.thereIn.minsNum;
+        const m = this.state.thereIn.minsText;
+
         return(
             <View style={styles.hotspot}>
-                <Text style={styles.hotspotTitle}>{this.props.name}</Text>
-                <Text>{this.props.thereIn}</Text>
-                <Text>{this.props.departure}</Text>
-                <Text>{this.props.address}</Text>
+
+                <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+
+                <View style={styles.hotspotTextContainer}>
+                    <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                    <Text>{hnum}{h}{mnum}{m}</Text>
+                    <Text>{this.state.departureTime}</Text>
+                    <Text>{this.state.busNumber}</Text>
+                    <Text>{this.state.departAddress.departStop}</Text>
+                    <Text>{this.state.arrivalTime}</Text>
+                    <Text>{this.state.distance}</Text>
+                </View>
+                
             </View>
         )
     }
@@ -32,17 +133,27 @@ export default class Hotspot extends Component {
 const styles = StyleSheet.create({
     hotspot: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
+        flexDirection: 'row',
         padding: 10,
         marginTop: 5,
         marginBottom: 5,
         shadowColor: 'black',
         shadowRadius: 1,
-        shadowOffset: {width: 0, height: 0},
+        shadowOffset: { width: 0, height: 0 },
         shadowOpacity: .7
     },
+    busIcon: {
+        height: 50,
+        width: 50,
+        margin: 20
+    },
+    hotspotTextContainer: {
+
+    },
     hotspotTitle: {
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold'
     }
 })

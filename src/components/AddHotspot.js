@@ -5,20 +5,32 @@ import {
     StyleSheet
 } from 'react-native';
 
-export default class AddHotspot extends Component {
+import { 
+    StackNavigator,
+    TabNavigator
+} from 'react-navigation';
+
+import AddHotspotForm from './AddHotspotForm';
+
+
+// TODO: this could be as a tabNavigator with tabs for the hotspot list and the add form
+
+class AddHotspotScreen extends Component {
     render() {
-        const { navigate } = this.props.navigation;
+        // const { navigate } = this.props.navigation;
 
         return(
             <View style={styles.container}>
                 <Button
                     title="Add Hotspot"
-                    onPress={() => navigate('AddHotspotForm')}
+                    
+                    onPress={() => alert('buttons :D')}
                 />
             </View>
         )
     }
 }
+{/*onPress={() => navigate('AddHotspotForm')}*/}
 
 const styles = StyleSheet.create({
     container: {
@@ -34,3 +46,11 @@ const styles = StyleSheet.create({
         shadowOpacity: .7
     }
 })
+
+
+const AddHotspot = TabNavigator({
+    AddHotspot: { screen: AddHotspotScreen },
+    Form: { screen: AddHotspotForm }
+})
+
+export default AddHotspot;

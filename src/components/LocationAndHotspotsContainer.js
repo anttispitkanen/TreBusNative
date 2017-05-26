@@ -3,8 +3,11 @@ import {
     View
 } from 'react-native';
 
+import { StackNavigator, TabNavigator } from 'react-navigation';
+
 import MyLocation from './MyLocation';
 import Hotspots from './Hotspots';
+import AddHotspotForm from './AddHotspotForm';
 
 export default class LocationAndHotspotsContainer extends Component {
     
@@ -13,7 +16,8 @@ export default class LocationAndHotspotsContainer extends Component {
         this.state = {
             address: null,
             latitude: null,
-            longitude: null
+            longitude: null,
+            coords: null
         }
     }
 
@@ -21,7 +25,8 @@ export default class LocationAndHotspotsContainer extends Component {
         this.setState({
             address: newLocation.address,
             latitude: newLocation.latitude,
-            longitude: newLocation.longitude
+            longitude: newLocation.longitude,
+            coords: newLocation.coords
         })
     }
 
@@ -34,10 +39,32 @@ export default class LocationAndHotspotsContainer extends Component {
                     latitude={this.state.latitude}
                     longitude={this.state.longitude}
                 />
-                <Hotspots address={this.state.address} {...this.props} />
+
+                <Hotspots 
+                    startCoords={this.state.coords}
+                />
+                
             </View>
         )
     }
-
-
 }
+
+
+// const HotspotTabNavigator = StackNavigator({
+//     Hotspots: { screen: Hotspots },
+//     AddHotspotForm: { screen: AddHotspotForm }
+// })
+
+{/*<HotspotTabNavigator />*/}
+
+// const HotspotTabNavigator = TabNavigator({
+//     Hotspots: { screen: Hotspots },
+//     AddHotspotForm: { screen: AddHotspotForm }
+// })
+
+{/*<Hotspots 
+    startCoords={this.state.coords}
+    {...this.props} 
+/>*/}
+
+// startCoords={this.state.startCoords}
