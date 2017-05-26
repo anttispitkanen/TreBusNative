@@ -95,6 +95,10 @@ export default class AddHotspotForm extends Component {
                     placeholder="Name"
                     ref="name"
                     autoCorrect={false}
+                    autoCapitalize="sentences"
+                    maxLength={50}
+                    returnKeyType="next"
+                    underlineColorAndroid="rgba(0,0,0,0)"
                 />
 
                 <TextInput
@@ -102,6 +106,10 @@ export default class AddHotspotForm extends Component {
                     placeholder="Address"
                     ref="address"
                     autoCorrect={false}
+                    autoCapitalize="sentences"
+                    maxLength={50}
+                    returnKeyType="next"
+                    underlineColorAndroid="rgba(0,0,0,0)"
                 />
 
                 <View style={styles.buttonContainer}>
@@ -127,13 +135,13 @@ export default class AddHotspotForm extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: 'center'
     },
     heading: {
         fontSize: 20,
         marginBottom: 20,
-        marginTop: 30
+        marginTop: 30,
+        textAlign: 'center'
         // flex: 1
     },
     textInput: {
@@ -145,12 +153,13 @@ const styles = StyleSheet.create({
         borderColor: '#DDD',
         borderWidth: 1,
         borderRadius: 5,
-        backgroundColor: '#FBFEF9'
-
+        // backgroundColor: '#FBFEF9',
+        backgroundColor: '#FFF'
     },
     buttonContainer: {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
         margin: 20
     },
     button: {

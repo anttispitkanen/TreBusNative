@@ -97,11 +97,14 @@ export default class MyLocation extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        margin: 20,
+        // margin: 20,
+        padding: 20,
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderBottomColor: '#DDD',
+        borderBottomWidth: 1
     },
     address: {
         margin: 20

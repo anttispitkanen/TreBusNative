@@ -37,7 +37,7 @@ export default class Utils {
 
         if (duration <= 60) {
             durationTimeObject.minsNum = duration;
-            durationTimeObject.minsText = 'min';
+            durationTimeObject.minsText = ' min';
 
         } else if (duration >= 180) {
             durationTimeObject.minsText = 'It would take over 3 hours :D'
@@ -49,9 +49,9 @@ export default class Utils {
                 mins = '0' + mins;
             }
             durationTimeObject.hoursNum = hours;
-            durationTimeObject.hoursText = 'h ';
+            durationTimeObject.hoursText = ' h ';
             durationTimeObject.minsNum = mins;
-            durationTimeObject.minsText = 'min';
+            durationTimeObject.minsText = ' min';
         }
 
         return durationTimeObject;

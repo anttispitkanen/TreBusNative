@@ -119,7 +119,7 @@ export default class Hotspot extends Component {
                     <Text>{hnum}{h}{mnum}{m}</Text>
                     <Text>{this.state.departureTime}</Text>
                     <Text>{this.state.busNumber}</Text>
-                    <Text>{this.state.departAddress.departStop}</Text>
+                    {(!this.state.departAddress.departStop || this.state.departAddress.departStop === '') ? null : <Text>{this.state.departAddress.departStop}</Text>}
                     <Text>{this.state.arrivalTime}</Text>
                     <Text>{this.state.distance}</Text>
                 </View>
@@ -137,12 +137,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         padding: 10,
-        marginTop: 5,
-        marginBottom: 5,
-        shadowColor: 'black',
-        shadowRadius: 1,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: .7
+        // marginTop: 5,
+        // marginBottom: 5,
+        // shadowColor: 'black',
+        // shadowRadius: 1,
+        // shadowOffset: { width: 0, height: 0 },
+        // shadowOpacity: .7,
+        borderBottomColor: '#DDD',
+        borderBottomWidth: 1,
     },
     busIcon: {
         height: 50,
