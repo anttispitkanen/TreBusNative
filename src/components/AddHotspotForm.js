@@ -53,12 +53,13 @@ export default class AddHotspotForm extends Component {
         // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
         // to avoid adding duplicates
 
-        this.props.added(newHotspot);
+        this.props.navigation.state.params.added(newHotspot);
+        // this.props.navigation.state.params.added();
         
         this.refs.name.clear();
         this.refs.address.clear();
 
-        // this.props.navigation.goBack();
+        this.props.navigation.goBack();
     }
 
 
@@ -81,7 +82,7 @@ export default class AddHotspotForm extends Component {
     cancel() {
         this.refs.name.clear();
         this.refs.address.clear();
-        // this.props.navigation.goBack();
+        this.props.navigation.goBack();
     }
 
     render() {

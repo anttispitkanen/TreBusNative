@@ -42,6 +42,7 @@ export default class LocationAndHotspotsContainer extends Component {
 
                 <Hotspots 
                     startCoords={this.state.coords}
+                    navigation={this.props.navigation}
                 />
                 
             </View>

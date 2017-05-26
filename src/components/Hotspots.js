@@ -8,8 +8,11 @@ import {
     Button
 } from 'react-native';
 
+import { StackNavigator } from 'react-navigation';
+
+
 import Hotspot from './Hotspot';
-import AddHotspot from './AddHotspot';
+// import AddHotspot from './AddHotspot';
 import AddHotspotForm from './AddHotspotForm';
 import MyLocation from './MyLocation';
 
@@ -44,7 +47,7 @@ export default class Hotspots extends Component {
             //     hotspots: ['yy', 'kaa', 'koo']
             // })
         } catch (error) {
-            alert('kammottava virhe!');
+            alert('kammottava virhe Hotspotsissa!');
         }
     }
 
@@ -53,7 +56,7 @@ export default class Hotspots extends Component {
             let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
             alert(hotspots);
         } catch (error) {
-            alert('tapahtui virhe!!!');
+            alert('tapahtui virhe Hotspotsissa!!!');
         }
         
     }
@@ -105,8 +108,9 @@ export default class Hotspots extends Component {
                         )
                     })}
                     
-                    <AddHotspotForm 
-                        added={(name) => this.hotspotAdded(name)}
+                    <AddHotspotButton
+                        navigation={this.props.navigation}
+                        hotspotAdded={(newHotspot) => this.hotspotAdded(newHotspot)}
                     />
                     
                 </View>
@@ -126,8 +130,9 @@ export default class Hotspots extends Component {
                     )
                 })}
 
-                <AddHotspotForm 
-                    added={(name) => this.hotspotAdded(name)}
+                <AddHotspotButton 
+                    navigation={this.props.navigation}
+                    hotspotAdded={(newHotspot) => this.hotspotAdded(newHotspot)}
                 />
                 
             </View>
@@ -137,11 +142,40 @@ export default class Hotspots extends Component {
 }
 
 
+class AddHotspotButton extends Component {
+    render() {
+
+        const { navigate } = this.props.navigation;
+
+        return(
+            <View style={styles.buttonContainer}>
+                <Button 
+                    title="Add hotspot"
+                    onPress={() => navigate('AddHotspotForm', { added: (newHotspot) => this.props.hotspotAdded(newHotspot) })}
+                />
+            </View>
+        )
+    }
+}
+
+{/*onPress={() => navigate('AddHotspotForm', { added: (newHotspot) => this.hotspotAdded(newHotspot) })}*/}
+
+
+// const AddHotspot = StackNavigator({
+//     AddHotspotButton: { screen: AddHotspotButton },
+//     AddHotspotForm: { screen: AddHotspotForm }
+// });
+
+
+
+{/*<AddHotspotForm 
+    added={(newHotspot) => this.hotspotAdded(newHotspot)}
+/>*/}
+
+
 const styles = StyleSheet.create({
     hotspots: {
-        // flex: 1,
-        // alignItems: 'center',
-        // backgroundColor: 'yellow'
+
     },
     text: {
         flex: 1,
@@ -155,32 +189,11 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 1},
         shadowRadius: 2,
         shadowOpacity: .8
+    },
+    buttonContainer: {
+        margin: 40,
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'row'
     }
 })
-
-
-
-
-/*{spots.map((s, i) => {
-    return (
-        <Hotspot 
-            key={i} 
-            thereIn="Waiting for location..." 
-            name={s.name}
-        />
-    )
-})}*/
-
-/*{spots.map((s, i) => {
-    return (
-        <Hotspot 
-            key={i} 
-            {...s}
-            address={this.props.address}
-        />
-    )
-})}*/
-
-
-
-{/*<AddHotspot added={(name) => this.hotspotAdded(name)} {...this.props} />*/}

@@ -39,7 +39,7 @@ class MainScreen extends Component {
         return(
             <ScrollView style={styles.main}>
                 <Header />
-                <LocationAndHotspotsContainer />
+                <LocationAndHotspotsContainer navigation={this.props.navigation} />
                 <InfoButton {...this.props} />
                 <Footer />
             </ScrollView>
@@ -51,7 +51,7 @@ class MainScreen extends Component {
 const Main = StackNavigator({
     Main: { screen: MainScreen },
     Info: { screen: Info },
-    // AddHotspotForm: { screen: AddHotspotForm }
+    AddHotspotForm: { screen: AddHotspotForm }
 })
 
 export default Main;
