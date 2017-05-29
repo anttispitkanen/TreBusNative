@@ -98,10 +98,14 @@ export default class Hotspots extends Component {
             return(
                 <View style={styles.hotspots}>
                     {hotspots.map((hs, i) => {
+                        
+                        console.log(hs);
+                        
                         return(
                             <Hotspot 
                                 key={i}
                                 name={hs.name}
+                                address={hs.address}
                                 destCoords={hs.coords}
                                 waitingForLocation="Waiting for location..." 
                                 navigation={this.props.navigation}
@@ -125,6 +129,7 @@ export default class Hotspots extends Component {
                         <Hotspot 
                             key={i}
                             name={hs.name}
+                            address={hs.address}
                             startCoords={this.props.startCoords}
                             destCoords={hs.coords}
                             navigation={this.props.navigation}

@@ -56,6 +56,8 @@ const Main = StackNavigator({
     HotspotView: { screen: HotspotView }
 })
 
+console.ignoredYellowBox = ['Warning: BackAndroid'];
+
 export default Main;
 
 

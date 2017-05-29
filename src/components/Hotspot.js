@@ -73,7 +73,7 @@ export default class Hotspot extends Component {
 
         if(this.props.waitingForLocation) {
             return(
-                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
                     <View style={styles.hotspot}>
                     
                         <Image source={require('../public/trebus.png')} style={styles.busIcon} />
@@ -96,7 +96,7 @@ export default class Hotspot extends Component {
             this.state.distance === null
         ) {
             return(
-                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
                     <View style={styles.hotspot}>
                     
                         <Image source={require('../public/trebus.png')} style={styles.busIcon} />
@@ -116,7 +116,7 @@ export default class Hotspot extends Component {
         const m = this.state.thereIn.minsText;
 
         return(
-            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
                 <View style={styles.hotspot}>
 
                     <Image source={require('../public/trebus.png')} style={styles.busIcon} />

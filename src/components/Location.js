@@ -12,7 +12,7 @@ export default class Location extends Component {
         }
         return(
             <View>
-                <Text style={{fontWeight: 'bold'}}>{this.props.address}</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 16}}>{this.props.address}</Text>
                 <Text>Lat: {this.props.latitude}</Text>
                 <Text>Long: {this.props.longitude}</Text>
             </View>
