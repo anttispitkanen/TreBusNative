@@ -104,6 +104,7 @@ export default class Hotspots extends Component {
                                 name={hs.name}
                                 destCoords={hs.coords}
                                 waitingForLocation="Waiting for location..." 
+                                navigation={this.props.navigation}
                             />
                         )
                     })}
@@ -126,6 +127,7 @@ export default class Hotspots extends Component {
                             name={hs.name}
                             startCoords={this.props.startCoords}
                             destCoords={hs.coords}
+                            navigation={this.props.navigation}
                         />
                     )
                 })}

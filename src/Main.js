@@ -16,6 +16,7 @@ import Info from './components/Info';
 import InfoButton from './components/InfoButton';
 import LocationAndHotspotsContainer from './components/LocationAndHotspotsContainer';
 import AddHotspotForm from './components/AddHotspotForm';
+import HotspotView from './components/HotspotView';
 
 
 const styles = StyleSheet.create({
@@ -51,7 +52,8 @@ class MainScreen extends Component {
 const Main = StackNavigator({
     Main: { screen: MainScreen },
     Info: { screen: Info },
-    AddHotspotForm: { screen: AddHotspotForm }
+    AddHotspotForm: { screen: AddHotspotForm },
+    HotspotView: { screen: HotspotView }
 })
 
 export default Main;

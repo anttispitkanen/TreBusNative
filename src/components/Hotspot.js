@@ -3,7 +3,8 @@ import {
     View,
     Text,
     StyleSheet,
-    Image
+    Image,
+    TouchableHighlight
 } from 'react-native';
 
 import Utils from '../utils/Utils';
@@ -39,12 +40,10 @@ export default class Hotspot extends Component {
             const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=route&from=${startCoords}&to=${destCoords}&show=1&Detail=limited&epsg_in=wgs84`;
         
             try {
-                // fetch here
-                // alert('nyt olis lähtökin tiedossa :D');
                 const response = await fetch(url);
                 const responseJSON = await response.json();
                 const routeData = responseJSON[0][0];
-                console.log(routeData);
+                // console.log(routeData);
 
                 this.setState({
                     thereIn: Utils.parseMinsToArrival(routeData),
@@ -70,16 +69,21 @@ export default class Hotspot extends Component {
 
     render() {
 
+        const { navigate } = this.props.navigation;
+
         if(this.props.waitingForLocation) {
             return(
-                <View style={styles.hotspot}>
-                    <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+                    <View style={styles.hotspot}>
                     
-                    <View style={styles.hotspotTextContainer}>
-                        <Text style={styles.hotspotTitle}>{this.props.name}</Text>
-                        <Text>{this.props.waitingForLocation}</Text>
+                        <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+
+                        <View style={styles.hotspotTextContainer}>
+                            <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                            <Text>{this.props.waitingForLocation}</Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableHighlight>
             )
         }
 
@@ -92,15 +96,17 @@ export default class Hotspot extends Component {
             this.state.distance === null
         ) {
             return(
-                <View style={styles.hotspot}>
+                <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+                    <View style={styles.hotspot}>
                     
-                    <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+                        <Image source={require('../public/trebus.png')} style={styles.busIcon} />
 
-                    <View style={styles.hotspotTextContainer}>
-                        <Text style={styles.hotspotTitle}>{this.props.name}</Text>
-                        <Text>Fetching route...</Text>
+                        <View style={styles.hotspotTextContainer}>
+                            <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                            <Text>Fetching route...</Text>
+                        </View>
                     </View>
-                </View>
+                </TouchableHighlight>
             )
         }
 
@@ -110,21 +116,23 @@ export default class Hotspot extends Component {
         const m = this.state.thereIn.minsText;
 
         return(
-            <View style={styles.hotspot}>
+            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props } )}>
+                <View style={styles.hotspot}>
 
-                <Image source={require('../public/trebus.png')} style={styles.busIcon} />
+                    <Image source={require('../public/trebus.png')} style={styles.busIcon} />
 
-                <View style={styles.hotspotTextContainer}>
-                    <Text style={styles.hotspotTitle}>{this.props.name}</Text>
-                    <Text>{hnum}{h}{mnum}{m}</Text>
-                    <Text>{this.state.departureTime}</Text>
-                    <Text>{this.state.busNumber}</Text>
-                    {(!this.state.departAddress.departStop || this.state.departAddress.departStop === '') ? null : <Text>{this.state.departAddress.departStop}</Text>}
-                    <Text>{this.state.arrivalTime}</Text>
-                    <Text>{this.state.distance}</Text>
+                    <View style={styles.hotspotTextContainer}>
+                        <Text style={styles.hotspotTitle}>{this.props.name}</Text>
+                        <Text>{hnum}{h}{mnum}{m}</Text>
+                        <Text>{this.state.departureTime}</Text>
+                        <Text>{this.state.busNumber}</Text>
+                        {(!this.state.departAddress.departStop || this.state.departAddress.departStop === '') ? null : <Text>{this.state.departAddress.departStop}</Text>}
+                        <Text>{this.state.arrivalTime}</Text>
+                        <Text>{this.state.distance}</Text>
+                    </View>
+                    
                 </View>
-                
-            </View>
+            </TouchableHighlight>
         )
     }
 }
