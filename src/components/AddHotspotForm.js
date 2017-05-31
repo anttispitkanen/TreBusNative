@@ -35,8 +35,8 @@ export default class AddHotspotForm extends Component {
 
     async addNewHotspot() {
         // alert(`added hotspot\n name: ${this.refs.name._lastNativeText}\n address: ${this.refs.address._lastNativeText}`);
-        const name = this.refs.name._lastNativeText;
-        const address = this.refs.address._lastNativeText;
+        const name = this.refs.name._lastNativeText.trim();
+        const address = this.refs.address._lastNativeText.trim();
 
         const coords = await this.fetchCoordinatesForHotspot(address);
 

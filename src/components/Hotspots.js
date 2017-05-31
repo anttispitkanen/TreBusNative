@@ -78,7 +78,7 @@ export default class Hotspots extends Component {
     }
 
 
-    async hotspotDeleted(deletedHotspotName) {
+    hotspotDeleted(deletedHotspotName) {
 
         let indexToDelete = null;
         let hotspots = this.state.hotspots;
@@ -91,13 +91,9 @@ export default class Hotspots extends Component {
         
         let removed = hotspots.splice(indexToDelete, 1);
 
-        // this.setState(() => {
-        //     return { hotspots: hotspots }
-        // }, () => this.saveHotspotsToStorage())
-        await this.setState({
-            hotspots: hotspots
-        })
-        this.saveHotspotsToStorage();
+        this.setState(() => {
+            return { hotspots: hotspots }
+        }, () => this.saveHotspotsToStorage())
     }
 
 

@@ -1,0 +1,27 @@
+TreBusNative TODOs:
+
+* Hotspot validation: names must be unique (currently not required, which messes up deleting)
+
+* Drag'n'drop re-ordering of hotspots
+
+* Handling situations where the user is not in Tampere
+
+* HotspotView with multiple next routes
+    * Line changes!
+
+
+* Real-time data for busses
+    * Maybe a map per stop
+        * Display the chosen stop and all the busses that go through it
+            * Maybe tooltips for each bus about the estimated real time arrivals
+    * Maybe a schedule thing like mobile Lissu
+
+
+
+* Limit searches to Tampere only (currently searching for "Rautatieasema" in some other city)
+
+
+
+
+DONEs:
+* trim form field inputs

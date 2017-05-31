@@ -32,8 +32,6 @@ export default class HotspotView extends Component {
                 }
             ]
         )
-        // properties.delete(properties.name);
-        // properties.navigation.goBack(null);
     }
     
     render() {
