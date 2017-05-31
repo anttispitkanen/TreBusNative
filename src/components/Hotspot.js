@@ -43,7 +43,6 @@ export default class Hotspot extends Component {
                 const response = await fetch(url);
                 const responseJSON = await response.json();
                 const routeData = responseJSON[0][0];
-                // console.log(routeData);
 
                 this.setState({
                     thereIn: Utils.parseMinsToArrival(routeData),
@@ -145,12 +144,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         padding: 10,
-        // marginTop: 5,
-        // marginBottom: 5,
-        // shadowColor: 'black',
-        // shadowRadius: 1,
-        // shadowOffset: { width: 0, height: 0 },
-        // shadowOpacity: .7,
         borderBottomColor: '#DDD',
         borderBottomWidth: 1,
     },

@@ -49,23 +49,3 @@ export default class LocationAndHotspotsContainer extends Component {
         )
     }
 }
-
-
-// const HotspotTabNavigator = StackNavigator({
-//     Hotspots: { screen: Hotspots },
-//     AddHotspotForm: { screen: AddHotspotForm }
-// })
-
-{/*<HotspotTabNavigator />*/}
-
-// const HotspotTabNavigator = TabNavigator({
-//     Hotspots: { screen: Hotspots },
-//     AddHotspotForm: { screen: AddHotspotForm }
-// })
-
-{/*<Hotspots 
-    startCoords={this.state.coords}
-    {...this.props} 
-/>*/}
-
-// startCoords={this.state.startCoords}

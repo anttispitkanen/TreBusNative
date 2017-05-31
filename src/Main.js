@@ -29,13 +29,11 @@ const styles = StyleSheet.create({
 
 class MainScreen extends Component {
     static navigationOptions = {
-        // title: 'TreBus',
         title: null,
         header: null
     }
     
     render() {
-        // const { navigate } = this.props.navigation;
 
         return(
             <ScrollView style={styles.main}>

@@ -30,6 +30,8 @@ export default class AddHotspotForm extends Component {
             })
         } catch (error) {
             alert('tapahtui virhe :D')
+            console.log(error);
+            
         }
     }
 
@@ -37,29 +39,34 @@ export default class AddHotspotForm extends Component {
         const name = this.refs.name._lastNativeText.trim();
         const address = this.refs.address._lastNativeText.trim();
 
-        const coords = await this.fetchCoordinatesForHotspot(address);
+        try {
+            const coords = await this.fetchCoordinatesForHotspot(address);
 
-        const newHotspot = {
-            name: name,
-            address: address,
-            coords: coords
+            const newHotspot = {
+                name: name,
+                address: address,
+                coords: coords
+            }
+
+            // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
+            // to avoid adding duplicates
+
+            if (!this.hotspotExists(name)) {
+                this.props.navigation.state.params.added(newHotspot);
+            
+                this.refs.name.clear();
+                this.refs.address.clear();
+
+                this.props.navigation.goBack();
+            
+            } else {
+                alert(`There's already a hotspot named ${name}!`)
+            }
+
+        } catch (error) {
+            alert('joku async error in addNewHotspot()');
+            console.log(error);
         }
-
-        // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
-        // to avoid adding duplicates
-
-        if (!this.hotspotExists(name)) {
-            this.props.navigation.state.params.added(newHotspot);
-        
-            this.refs.name.clear();
-            this.refs.address.clear();
-
-            this.props.navigation.goBack();
-        
-        } else {
-            alert(`There's already a hotspot named ${name}!`)
-        }
-
         
     }
 

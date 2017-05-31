@@ -1,6 +1,5 @@
 TreBusNative TODOs:
 
-* Hotspot validation: names must be unique (currently not required, which messes up deleting)
 
 * Drag'n'drop re-ordering of hotspots
 
@@ -18,10 +17,12 @@ TreBusNative TODOs:
 
 
 
-* Limit searches to Tampere only (currently searching for "Rautatieasema" in some other city)
+
 
 
 
 
 DONEs:
 * trim form field inputs
+* Limit searches to Tampere only (currently searching for "Rautatieasema" in some other city)
+* Hotspot validation: names must be unique (currently not required, which messes up deleting)

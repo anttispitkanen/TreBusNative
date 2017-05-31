@@ -57,10 +57,16 @@ export default class Hotspots extends Component {
     }
 
     async fetchHotspots() {
-        let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
-        this.setState({
-            hotspots: hotspots
-        })
+        try {
+            let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
+            this.setState({
+                hotspots: hotspots
+            })    
+        } catch (error) {
+            alert('error in fetchHotspots()');
+            console.log(error);
+        }
+        
     }
 
 
@@ -74,7 +80,12 @@ export default class Hotspots extends Component {
     }
 
     async saveHotspotsToStorage() {
-        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state.hotspots));
+        try {
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state.hotspots));
+        } catch (error) {
+            alert('error in saveHotspotsToStorage()');
+            console.log(error);
+        }
     }
 
 
@@ -91,6 +102,7 @@ export default class Hotspots extends Component {
         
         let removed = hotspots.splice(indexToDelete, 1);
 
+        // this is the asynchronous callback syntax
         this.setState(() => {
             return { hotspots: hotspots }
         }, () => this.saveHotspotsToStorage())
@@ -106,9 +118,6 @@ export default class Hotspots extends Component {
             return(
                 <View style={styles.hotspots}>
                     {hotspots.map((hs, i) => {
-                        
-                        {/*console.log(hs);*/}
-                        
                         return(
                             <Hotspot 
                                 key={i}
@@ -174,20 +183,6 @@ class AddHotspotButton extends Component {
         )
     }
 }
-
-{/*onPress={() => navigate('AddHotspotForm', { added: (newHotspot) => this.hotspotAdded(newHotspot) })}*/}
-
-
-// const AddHotspot = StackNavigator({
-//     AddHotspotButton: { screen: AddHotspotButton },
-//     AddHotspotForm: { screen: AddHotspotForm }
-// });
-
-
-
-{/*<AddHotspotForm 
-    added={(newHotspot) => this.hotspotAdded(newHotspot)}
-/>*/}
 
 
 const styles = StyleSheet.create({
