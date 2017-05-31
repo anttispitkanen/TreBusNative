@@ -65,7 +65,7 @@ export default class AddHotspotForm extends Component {
 
     async fetchCoordinatesForHotspot(address) {
         const formattedAddress = encodeURIComponent(address);
-        const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=geocode&format=json&key=${formattedAddress}&epsg_out=wgs84`;
+        const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=geocode&cities=tampere&format=json&key=${formattedAddress}&epsg_out=wgs84`;
 
         try {
             const response = await fetch(url);
