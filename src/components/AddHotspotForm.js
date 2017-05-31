@@ -34,15 +34,10 @@ export default class AddHotspotForm extends Component {
     }
 
     async addNewHotspot() {
-        // alert(`added hotspot\n name: ${this.refs.name._lastNativeText}\n address: ${this.refs.address._lastNativeText}`);
         const name = this.refs.name._lastNativeText.trim();
         const address = this.refs.address._lastNativeText.trim();
 
         const coords = await this.fetchCoordinatesForHotspot(address);
-
-        // let hotspots = !this.state.hotspots ? [] : this.state.hotspots;
-        // hotspots.push(name + ': ' + address + ': ' + coords);
-        // await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(hotspots));
 
         const newHotspot = {
             name: name,
@@ -53,13 +48,30 @@ export default class AddHotspotForm extends Component {
         // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
         // to avoid adding duplicates
 
-        this.props.navigation.state.params.added(newHotspot);
-        // this.props.navigation.state.params.added();
+        if (!this.hotspotExists(name)) {
+            this.props.navigation.state.params.added(newHotspot);
         
-        this.refs.name.clear();
-        this.refs.address.clear();
+            this.refs.name.clear();
+            this.refs.address.clear();
 
-        this.props.navigation.goBack();
+            this.props.navigation.goBack();
+        
+        } else {
+            alert(`There's already a hotspot named ${name}!`)
+        }
+
+        
+    }
+
+    // returns true if a hotspot with similar name already exists, false otherwise
+    hotspotExists(newName) {
+        let alreadyExists = false;
+        
+        this.state.hotspots.forEach(hotspot => {
+            if (hotspot.name === newName) { alreadyExists = true }
+        })
+        
+        return alreadyExists;
     }
 
 
@@ -143,7 +155,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 30,
         textAlign: 'center'
-        // flex: 1
     },
     textInput: {
         padding: 10,
@@ -154,7 +165,6 @@ const styles = StyleSheet.create({
         borderColor: '#DDD',
         borderWidth: 1,
         borderRadius: 5,
-        // backgroundColor: '#FBFEF9',
         backgroundColor: '#FFF'
     },
     buttonContainer: {
