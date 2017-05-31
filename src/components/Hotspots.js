@@ -12,7 +12,6 @@ import { StackNavigator } from 'react-navigation';
 
 
 import Hotspot from './Hotspot';
-// import AddHotspot from './AddHotspot';
 import AddHotspotForm from './AddHotspotForm';
 import MyLocation from './MyLocation';
 
@@ -41,11 +40,7 @@ export default class Hotspots extends Component {
             this.setState({
                 hotspots: JSON.parse(value)
             })
-            // alert('nyt on ' + JSON.stringify(this.state.hotspots))
-
-            // this.setState({
-            //     hotspots: ['yy', 'kaa', 'koo']
-            // })
+            
         } catch (error) {
             alert('kammottava virhe Hotspotsissa!');
         }
@@ -63,17 +58,11 @@ export default class Hotspots extends Component {
 
     async fetchHotspots() {
         let hotspots = await AsyncStorage.getItem(STORAGE_KEY);
-        // return JSON.parse(hotspots);
         this.setState({
             hotspots: hotspots
         })
     }
 
-
-    // async hotspotAdded(name) {
-    //     alert(`Added ${name}!`)
-    //     await this.fetchHotspots();
-    // }
 
     hotspotAdded(newHotspot) {
         let hotspots = this.state.hotspots;
@@ -89,6 +78,29 @@ export default class Hotspots extends Component {
     }
 
 
+    async hotspotDeleted(deletedHotspotName) {
+
+        let indexToDelete = null;
+        let hotspots = this.state.hotspots;
+        
+        hotspots.forEach((hotspot, i) => {
+            if (hotspot.name === deletedHotspotName) {
+                indexToDelete = i;
+            }
+        })
+        
+        let removed = hotspots.splice(indexToDelete, 1);
+
+        // this.setState(() => {
+        //     return { hotspots: hotspots }
+        // }, () => this.saveHotspotsToStorage())
+        await this.setState({
+            hotspots: hotspots
+        })
+        this.saveHotspotsToStorage();
+    }
+
+
     render() {
         let hotspots = this.state.hotspots;
 
@@ -99,7 +111,7 @@ export default class Hotspots extends Component {
                 <View style={styles.hotspots}>
                     {hotspots.map((hs, i) => {
                         
-                        console.log(hs);
+                        {/*console.log(hs);*/}
                         
                         return(
                             <Hotspot 
@@ -109,6 +121,7 @@ export default class Hotspots extends Component {
                                 destCoords={hs.coords}
                                 waitingForLocation="Waiting for location..." 
                                 navigation={this.props.navigation}
+                                delete={(deletedHotspotName) => this.hotspotDeleted(deletedHotspotName)}
                             />
                         )
                     })}
@@ -133,6 +146,7 @@ export default class Hotspots extends Component {
                             startCoords={this.props.startCoords}
                             destCoords={hs.coords}
                             navigation={this.props.navigation}
+                            delete={(deletedHotspotName) => this.hotspotDeleted(deletedHotspotName)}
                         />
                     )
                 })}

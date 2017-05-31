@@ -4,18 +4,44 @@ import {
     Text,
     StyleSheet,
     Linking,
-    Button
+    Button,
+    Alert
 } from 'react-native';
 
 
 export default class HotspotView extends Component {
+
+
+
+    deleteHotspot() {
+        
+        const properties = this.props.navigation.state.params.props;
+        Alert.alert(
+            `Delete ${properties.name}?`,
+            null,
+            [
+                {
+                    text: 'Cancel', 
+                    onPress: () => null
+                }, {
+                    text: 'Delete',
+                    onPress: () => {
+                        properties.delete(properties.name);
+                        properties.navigation.goBack(null);
+                    }
+                }
+            ]
+        )
+        // properties.delete(properties.name);
+        // properties.navigation.goBack(null);
+    }
     
     render() {
         
         const properties = this.props.navigation.state.params.props;
         const state = this.props.navigation.state.params.state;
 
-        // console.log(properties);
+        console.log(properties);
         console.log(state);
         
 
@@ -31,7 +57,7 @@ export default class HotspotView extends Component {
                 <View style={styles.buttonContainer}>
                     <Button 
                         title={`Delete ${properties.name}`}
-                        onPress={() => alert('sin män :D')}
+                        onPress={() => this.deleteHotspot()}
                     />
                 </View>
             </View>
