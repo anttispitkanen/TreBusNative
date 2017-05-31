@@ -16,7 +16,8 @@ TreBusNative TODOs:
     * Maybe a schedule thing like mobile Lissu
 
 
-
+* Login with username (=API key) and password (=API pass)
+    => enables making source public
 
 
 

@@ -10,10 +10,13 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 
+import { SortableListView } from 'react-native-sortable-listview'
+
 
 import Hotspot from './Hotspot';
 import AddHotspotForm from './AddHotspotForm';
 import MyLocation from './MyLocation';
+import AddHotspotButton from './AddHotspotButton';
 
 
 const STORAGE_KEY = '@TreBus:Hotspots';
@@ -168,21 +171,7 @@ export default class Hotspots extends Component {
 }
 
 
-class AddHotspotButton extends Component {
-    render() {
 
-        const { navigate } = this.props.navigation;
-
-        return(
-            <View style={styles.buttonContainer}>
-                <Button 
-                    title="Add hotspot"
-                    onPress={() => navigate('AddHotspotForm', { added: (newHotspot) => this.props.hotspotAdded(newHotspot) })}
-                />
-            </View>
-        )
-    }
-}
 
 
 const styles = StyleSheet.create({
@@ -201,11 +190,6 @@ const styles = StyleSheet.create({
         shadowOffset: {width: 0, height: 1},
         shadowRadius: 2,
         shadowOpacity: .8
-    },
-    buttonContainer: {
-        margin: 40,
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'row'
     }
+    
 })
