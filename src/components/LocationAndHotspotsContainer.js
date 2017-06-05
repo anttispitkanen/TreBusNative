@@ -22,12 +22,25 @@ export default class LocationAndHotspotsContainer extends Component {
     }
 
     updateLocation(newLocation) {
-        this.setState({
+        this.setState(() => {
+            return {
+                address: null,
+                latitude: null,
+                longitude: null,
+                coords: null
+            }
+        }, () => this.setState({
             address: newLocation.address,
             latitude: newLocation.latitude,
             longitude: newLocation.longitude,
             coords: newLocation.coords
-        })
+        }))
+        // this.setState({
+        //     address: newLocation.address,
+        //     latitude: newLocation.latitude,
+        //     longitude: newLocation.longitude,
+        //     coords: newLocation.coords
+        // })
     }
 
     render() {
@@ -38,6 +51,7 @@ export default class LocationAndHotspotsContainer extends Component {
                     address={this.state.address}
                     latitude={this.state.latitude}
                     longitude={this.state.longitude}
+                    navigation={this.props.navigation}
                 />
 
                 <Hotspots 

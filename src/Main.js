@@ -17,6 +17,7 @@ import InfoButton from './components/InfoButton';
 import LocationAndHotspotsContainer from './components/LocationAndHotspotsContainer';
 import AddHotspotForm from './components/AddHotspotForm';
 import HotspotView from './components/HotspotView';
+import ManualLocation from './components/ManualLocation';
 
 
 const styles = StyleSheet.create({
@@ -51,7 +52,8 @@ const Main = StackNavigator({
     Main: { screen: MainScreen },
     Info: { screen: Info },
     AddHotspotForm: { screen: AddHotspotForm },
-    HotspotView: { screen: HotspotView }
+    HotspotView: { screen: HotspotView },
+    ManualLocation: { screen: ManualLocation }
 })
 
 console.ignoredYellowBox = ['Warning: BackAndroid'];

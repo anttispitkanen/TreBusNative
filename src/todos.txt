@@ -1,9 +1,8 @@
 TreBusNative TODOs:
 
+* Edit Hotspot
 
-* Drag'n'drop re-ordering of hotspots
-
-* Handling situations where the user is not in Tampere
+* Drag'n'drop re-ordering of hotspots???
 
 * HotspotView with multiple next routes
     * Line changes!
@@ -20,6 +19,21 @@ TreBusNative TODOs:
     => enables making source public
 
 
+* Pictures in background for Hotspot and AddHotspotForm
+
+* Adding custom pictures for each Hotspot (background image and thumbnail)
+    * Filepicker
+    * Camera usage
+
+
+* Manual input of Location
+
+* Error in resizing form background image when keyboard is open
+
+* ADD REDUX!
+
+* Create a proper logo with Canva
+    * Update icons as well
 
 
 
@@ -27,3 +41,18 @@ DONEs:
 * trim form field inputs
 * Limit searches to Tampere only (currently searching for "Rautatieasema" in some other city)
 * Hotspot validation: names must be unique (currently not required, which messes up deleting)
+* Preven adding hotspot with invalid address
+* Add header background image
+* Spinner for routing swipe => spins while fetching route, releases when ready?
+* Lock app to portrait orientation on iOS (xcode)
+* Icons for app
+* Arrow click ordering of hotspots
+* Some mechanism to avoid unnecessary routing every time the hotspots are rearranged
+* Handling situations where the user is not in Tampere
+    * Check if the response.city matches 'Tampere'
+
+
+
+Location for Visiokatu 3:
+61.448062 (lat)
+23.863707 (long)

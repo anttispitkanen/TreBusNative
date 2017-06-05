@@ -26,7 +26,7 @@ export default class HotspotView extends Component {
                 }, {
                     text: 'Delete',
                     onPress: () => {
-                        properties.delete(properties.name);
+                        properties.delete(properties.index);
                         properties.navigation.goBack(null);
                     }
                 }

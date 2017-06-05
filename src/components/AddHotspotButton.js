@@ -16,6 +16,7 @@ export default class AddHotspotButton extends Component {
                 <Button 
                     title="Add hotspot"
                     onPress={() => navigate('AddHotspotForm', { added: (newHotspot) => this.props.hotspotAdded(newHotspot) })}
+                    disabled={this.props.hotspotsFull}
                 />
             </View>
         )

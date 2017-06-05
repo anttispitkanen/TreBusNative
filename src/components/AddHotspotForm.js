@@ -5,7 +5,9 @@ import {
     Text,
     TextInput,
     StyleSheet,
-    AsyncStorage
+    AsyncStorage,
+    Image,
+    TouchableHighlight
 } from 'react-native';
 
 
@@ -18,11 +20,15 @@ export default class AddHotspotForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hotspots: null
+            hotspots: null,
+            addressFetchInProgress: false
         }
     }
 
+    windowHeight = null;
+
     async componentDidMount() {
+
         try {
             let value = await AsyncStorage.getItem(STORAGE_KEY);
             this.setState({
@@ -36,37 +42,68 @@ export default class AddHotspotForm extends Component {
     }
 
     async addNewHotspot() {
-        const name = this.refs.name._lastNativeText.trim();
-        const address = this.refs.address._lastNativeText.trim();
+        if (!this.refs.address._lastNativeText ||
+            !this.refs.name._lastNativeText || 
+            this.refs.address._lastNativeText.length < 3 ||
+            this.refs.name._lastNativeText.length < 3) {
+                
+                alert('Hotspot name and address must be at least 3 letters long.');
 
-        try {
-            const coords = await this.fetchCoordinatesForHotspot(address);
-
-            const newHotspot = {
-                name: name,
-                address: address,
-                coords: coords
-            }
-
-            // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
-            // to avoid adding duplicates
-
-            if (!this.hotspotExists(name)) {
-                this.props.navigation.state.params.added(newHotspot);
-            
-                this.refs.name.clear();
-                this.refs.address.clear();
-
-                this.props.navigation.goBack();
-            
             } else {
-                alert(`There's already a hotspot named ${name}!`)
-            }
 
-        } catch (error) {
-            alert('joku async error in addNewHotspot()');
-            console.log(error);
-        }
+                const name = this.refs.name._lastNativeText.trim();
+                const address = this.refs.address._lastNativeText.trim();
+
+                try {
+                    await this.setState({ 
+                        addressFetchInProgress: true
+                    })
+
+                    const coords = await this.fetchCoordinatesForHotspot(address);
+
+                    if (!coords) {
+                    
+                        alert('Address must exist in Tampere!');
+                        await this.setState({
+                            addressFetchInProgress: false
+                        })
+
+                    } else {
+                        
+                        const newHotspot = {
+                            name: name,
+                            address: address,
+                            coords: coords
+                        }
+
+                        // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
+                        // to avoid adding duplicates
+
+                        if (!this.hotspotExists(name)) {
+                            this.props.navigation.state.params.added(newHotspot);
+                        
+                            this.refs.name.clear();
+                            this.refs.address.clear();
+
+                            await this.setState({
+                                addressFetchInProgress: false
+                            })
+
+
+                            this.props.navigation.goBack();
+                        
+                        } else {
+                            alert(`There's already a hotspot named ${name}!`)
+                        }
+                    }
+
+
+                } catch (error) {
+                    alert('joku async error in addNewHotspot()');
+                    console.log(error);
+                }
+
+            }
         
     }
 
@@ -92,7 +129,8 @@ export default class AddHotspotForm extends Component {
             const coords = responseJSON[0].coords;
             return coords;
         } catch (error) {
-            alert('Ei kelpaa! :DD');
+            // address not found
+            return null;
         }
 
     }
@@ -104,64 +142,105 @@ export default class AddHotspotForm extends Component {
         this.props.navigation.goBack();
     }
 
+    validatingAddress() {
+        if (this.state.addressFetchInProgress) {
+            return (
+                <Text style={{
+                    fontSize: 17, 
+                    color: '#FF3',
+                    flex: 1,
+                    textAlign: 'center',
+                    textShadowColor: 'black',
+                    textShadowOffset: {width:0, height:1},
+                    textShadowRadius: 6
+                }}>
+                    Validating address...
+                </Text>
+            )
+        } else {
+            return null;
+        }
+    }
+
+
     render() {
-        
+
         return(
-            <View style={styles.container}>
-                <Text style={styles.heading}>Add a Hotspot</Text>
+            <Image source={require('../public/buswindow.png')} style={styles.backgroundImage}>
+                <View style={styles.container}>
 
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Name"
-                    ref="name"
-                    autoCorrect={false}
-                    autoCapitalize="sentences"
-                    maxLength={50}
-                    returnKeyType="next"
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                />
+                    <Text style={styles.heading}>Add a Hotspot</Text>
 
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Address"
-                    ref="address"
-                    autoCorrect={false}
-                    autoCapitalize="sentences"
-                    maxLength={50}
-                    returnKeyType="next"
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Name"
+                        ref="name"
+                        autoCorrect={false}
+                        autoCapitalize="sentences"
+                        maxLength={50}
+                        returnKeyType="next"
+                        underlineColorAndroid="rgba(0,0,0,0)"
+                    />
 
-                <View style={styles.buttonContainer}>
-                    <View style={styles.button}>
-                        <Button 
-                            title="Add"
-                            onPress={() => this.addNewHotspot()} 
-                        />
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Address"
+                        ref="address"
+                        autoCorrect={false}
+                        autoCapitalize="sentences"
+                        maxLength={50}
+                        returnKeyType="next"
+                        underlineColorAndroid="rgba(0,0,0,0)"
+                    />
+
+                    <View style={styles.buttonContainer}>
+
+                        <TouchableHighlight
+                            style={styles.button}
+                            onPress={() => this.cancel()}>
+                            <Text>Cancel</Text>
+                        </TouchableHighlight>
+
+                        <TouchableHighlight
+                            style={styles.button}
+                            onPress={() => this.addNewHotspot()}>
+                            <Text>Add</Text>
+                        </TouchableHighlight>
+
                     </View>
 
-                    <View style={styles.button}>
-                        <Button 
-                            title="Cancel"
-                            onPress={() => this.cancel()} 
-                        />
-                    </View>
+                    {this.validatingAddress()}
+
                 </View>
-           </View>
+            </Image>
         )
     }
 }
 
+
 const styles = StyleSheet.create({
+    backgroundImage: {
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
+    },
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255,255,255,0.1)'
     },
     heading: {
-        fontSize: 20,
+        fontSize: 30,
+        fontWeight: '600',
         marginBottom: 20,
         marginTop: 30,
-        textAlign: 'center'
+        textAlign: 'center',
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: '#FF3',
+        textShadowColor: 'black',
+        textShadowOffset: {width: 0, height: 1},
+        textShadowRadius: 7
     },
     textInput: {
         padding: 10,
@@ -181,6 +260,12 @@ const styles = StyleSheet.create({
         margin: 20
     },
     button: {
-        margin: 10
+        margin: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 35,
+        width: 80,
+        backgroundColor: 'white',
+        borderRadius: 5,
     }
 })

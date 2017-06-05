@@ -5,12 +5,13 @@ import {
     Text,
     StyleSheet,
     AsyncStorage,
-    Button
+    Button,
+    TouchableHighlight
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
 
-import { SortableListView } from 'react-native-sortable-listview'
+const SortableListView = require('react-native-sortable-listview');
 
 
 import Hotspot from './Hotspot';
@@ -46,6 +47,7 @@ export default class Hotspots extends Component {
             
         } catch (error) {
             alert('kammottava virhe Hotspotsissa!');
+            console.log(error);
         }
     }
 
@@ -92,30 +94,51 @@ export default class Hotspots extends Component {
     }
 
 
-    hotspotDeleted(deletedHotspotName) {
 
-        let indexToDelete = null;
+    hotspotDeleted(index) {
+
+        if (index >= 0 && index < this.state.hotspots.length) {
+            let hotspots = this.state.hotspots;
+
+            hotspots.splice(index, 1);
+
+            this.setState(() => {
+                return {
+                    hotspots: hotspots
+                }
+            },() => { this.saveHotspotsToStorage() })
+        }
+    }
+
+
+    moveHotspotUp(index) {
+        if (index !== null && index > 0) {
+            this.moveHotspot(index, index-1);
+        }
+    }
+
+    moveHotspotDown(index) {
+        if (index !== null && index < this.state.hotspots.length - 1) {
+            this.moveHotspot(index, index+1);
+        }
+    }
+
+
+    moveHotspot(oldPos, newPos) {
         let hotspots = this.state.hotspots;
-        
-        hotspots.forEach((hotspot, i) => {
-            if (hotspot.name === deletedHotspotName) {
-                indexToDelete = i;
-            }
-        })
-        
-        let removed = hotspots.splice(indexToDelete, 1);
-
-        // this is the asynchronous callback syntax
+        let hotspotToMove = hotspots.splice(oldPos, 1)[0];
+        hotspots.splice(newPos, 0, hotspotToMove);
         this.setState(() => {
             return { hotspots: hotspots }
         }, () => this.saveHotspotsToStorage())
     }
 
 
+
     render() {
         let hotspots = this.state.hotspots;
 
-        if(!hotspots) {return <Text style={{textAlign: 'center'}}>Waiting...</Text>};
+        if(!hotspots) { return <Text style={{textAlign: 'center'}}>Waiting...</Text> };
 
         if (!this.props.startCoords) {
             return(
@@ -123,13 +146,16 @@ export default class Hotspots extends Component {
                     {hotspots.map((hs, i) => {
                         return(
                             <Hotspot 
-                                key={i}
+                                key={hs.name}
+                                index={i}
                                 name={hs.name}
                                 address={hs.address}
                                 destCoords={hs.coords}
                                 waitingForLocation="Waiting for location..." 
                                 navigation={this.props.navigation}
-                                delete={(deletedHotspotName) => this.hotspotDeleted(deletedHotspotName)}
+                                delete={(index) => this.hotspotDeleted(index)}
+                                moveUp={(index) => this.moveHotspotUp(index)}
+                                moveDown={(index) => this.moveHotspotDown(index)}
                             />
                         )
                     })}
@@ -137,10 +163,12 @@ export default class Hotspots extends Component {
                     <AddHotspotButton
                         navigation={this.props.navigation}
                         hotspotAdded={(newHotspot) => this.hotspotAdded(newHotspot)}
+                        hotspotsFull={this.state.hotspots.length > 7}
                     />
                     
                 </View>
             )
+
         }
 
         return (
@@ -148,13 +176,16 @@ export default class Hotspots extends Component {
                 {hotspots.map((hs, i) => {
                     return(
                         <Hotspot 
-                            key={i}
+                            key={hs.name}
+                            index={i}
                             name={hs.name}
                             address={hs.address}
                             startCoords={this.props.startCoords}
                             destCoords={hs.coords}
                             navigation={this.props.navigation}
-                            delete={(deletedHotspotName) => this.hotspotDeleted(deletedHotspotName)}
+                            delete={(index) => this.hotspotDeleted(index)}
+                            moveUp={(index) => this.moveHotspotUp(index)}
+                            moveDown={(index) => this.moveHotspotDown(index)}
                         />
                     )
                 })}
@@ -162,6 +193,7 @@ export default class Hotspots extends Component {
                 <AddHotspotButton 
                     navigation={this.props.navigation}
                     hotspotAdded={(newHotspot) => this.hotspotAdded(newHotspot)}
+                    hotspotsFull={this.state.hotspots.length > 7}
                 />
                 
             </View>

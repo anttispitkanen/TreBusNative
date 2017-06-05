@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
     View,
     Button,
-    StyleSheet
+    StyleSheet,
+    TouchableHighlight,
+    Text
 } from 'react-native';
 
 import Location from './Location';
@@ -20,14 +22,10 @@ export default class MyLocation extends Component {
     }
 
     async locateMe() {
-        // this.props.updateLocation({
-        //     address: 'Visiokatu 1',
-        //     latitude: 'lalala',
-        //     longitude: 'lololo',
-        //     coords: longitude + ',' + latitude
-        // });
-
         
+        this.props.updateLocation({
+            address: 'Locating...'
+        })
 
         // THIS WORKS FOR GETTING THE POSITION
         navigator.geolocation.getCurrentPosition(
@@ -40,17 +38,21 @@ export default class MyLocation extends Component {
                     longitude: longitude,
                     coords: longitude + ',' + latitude
                 })
-                // alert(this.state.coords);
 
-                // const url = 'http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=geocode&format=json&cities=tampere&epsg_out=wgs84&key=sarvijaakonkatu+18';
                 const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=reverse_geocode&coordinate=${this.state.coords}&limit=1&epsg_in=wgs84&format=json`;
+                
 
                 try {
                     let response = await fetch(url);
                     let responseJSON = await response.json();
+
+                    if (responseJSON[0].city !== 'Tampere') {
+                        alert(`You seem to be in ${responseJSON[0].city}. TreBus only works in Tampere. ¯\\_(ツ)_/¯`);
+                        throw new Error(`You seem to be in ${responseJSON[0].city}. TreBus only works in Tampere. ¯\\_(ツ)_/¯`);
+                    }
+
                     const streetname = responseJSON[0].name;
                     const num = responseJSON[0].details.houseNumber;
-                    // alert(JSON.stringify(responseJSON));
                     
                     this.setState({
                         address: streetname + ' ' + num
@@ -64,7 +66,14 @@ export default class MyLocation extends Component {
                     })
 
                 } catch (error) {
-                    alert(error);
+                    alert('It seems you are not in Tampere ¯\\_(ツ)_/¯');
+                    console.log(error);
+                    
+                    this.props.updateLocation({
+                        address: null,
+                        latitude: null,
+                        longitude: null
+                    })   
                 }
 
             },
@@ -77,6 +86,9 @@ export default class MyLocation extends Component {
 
 
     render() {
+
+        const { navigate } = this.props.navigation;
+
         return(
             <View style={styles.container}>
                 <Location 
@@ -85,10 +97,14 @@ export default class MyLocation extends Component {
                     longitude={this.props.longitude} 
                 />
                 
-                <Button 
-                    title="Locate me"
+                <TouchableHighlight 
                     onPress={() => this.locateMe()}
-                />
+                    onLongPress={() => alert('jee')}
+                    underlayColor="rgba(0,0,0,0)">
+                    
+                    <Text style={styles.locateMe}>Locate me</Text>
+
+                </TouchableHighlight>
                 
             </View>
         )
@@ -97,7 +113,6 @@ export default class MyLocation extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // margin: 20,
         padding: 20,
         flex: 1,
         justifyContent: 'space-between',
@@ -108,5 +123,12 @@ const styles = StyleSheet.create({
     },
     address: {
         margin: 20
+    },
+    locateMe: {
+        // backgroundColor: 'yellow',
+        paddingTop: 10,
+        paddingBottom: 10,
+        color: 'rgb(26,73,243)',
+        fontSize: 18
     }
 })
