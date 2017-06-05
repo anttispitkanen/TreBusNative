@@ -16,11 +16,13 @@ export default class HotspotArrowButtons extends Component {
         // threre could be some conditional that removes up arrow from first element and down arrow from last element
         return(
             <View style={styles.buttonContainer}>
-                <TouchableHighlight onPress={() => this.props.moveUp(this.props.index)} style={styles.buttonUpContainer}>
+                <TouchableHighlight onPress={() => this.props.moveUp(this.props.index)} style={styles.buttonUpContainer}
+                                    underlayColor="rgba(0,0,0,0)">
                     <Image source={require('../public/triup.png') } style={styles.buttonUp} />
                 </TouchableHighlight>
                 
-                <TouchableHighlight onPress={() => this.props.moveDown(this.props.index)} style={styles.buttonDownContainer}>
+                <TouchableHighlight onPress={() => this.props.moveDown(this.props.index)} style={styles.buttonDownContainer}
+                                    underlayColor="rgba(0,0,0,0)">
                     <Image source={require('../public/triup.png') } style={styles.buttonDown} />
                 </TouchableHighlight>
             </View>
@@ -32,11 +34,8 @@ export default class HotspotArrowButtons extends Component {
 const styles = StyleSheet.create({
     buttonContainer: {
         flex: 1,
-        // right: 20,
-        // backgroundColor: 'yellow',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        // minHeight: 160
     },
     buttonUpContainer: {
 

@@ -76,9 +76,6 @@ export default class AddHotspotForm extends Component {
                             coords: coords
                         }
 
-                        // FIXME: maybe map hotspots from asyncstorage to state here in order to compare to existing hotspots
-                        // to avoid adding duplicates
-
                         if (!this.hotspotExists(name)) {
                             this.props.navigation.state.params.added(newHotspot);
                         
@@ -152,7 +149,8 @@ export default class AddHotspotForm extends Component {
                     textAlign: 'center',
                     textShadowColor: 'black',
                     textShadowOffset: {width:0, height:1},
-                    textShadowRadius: 6
+                    textShadowRadius: 6,
+                    backgroundColor: 'rgba(0,0,0,0)'
                 }}>
                     Validating address...
                 </Text>
@@ -197,12 +195,14 @@ export default class AddHotspotForm extends Component {
 
                         <TouchableHighlight
                             style={styles.button}
+                            underlayColor="rgba(255,255,255,0.9)"
                             onPress={() => this.cancel()}>
                             <Text>Cancel</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
                             style={styles.button}
+                            underlayColor="rgba(255,255,255,0.9)"
                             onPress={() => this.addNewHotspot()}>
                             <Text>Add</Text>
                         </TouchableHighlight>

@@ -35,10 +35,6 @@ export default class Hotspot extends Component {
         
     }
 
-    componentDidMount() {
-        // this.fetchRoute();
-        
-    }
 
     spin() {
         this.spinValue.setValue(0);
@@ -54,12 +50,6 @@ export default class Hotspot extends Component {
                 this.spin();
             }
         })
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        // if (prevProps !== this.props) {
-        //     this.fetchRoute();
-        // }
     }
 
 
@@ -134,9 +124,7 @@ export default class Hotspot extends Component {
 
     render() {
 
-        console.log('rendering ' + this.props.name);
-        
-        // let swipeable = null;
+        // console.log('rendering ' + this.props.name);
 
         const { navigate } = this.props.navigation;
 
@@ -146,13 +134,7 @@ export default class Hotspot extends Component {
                 this.delete()
                 this.swipeable.recenter()}}>
                 <Image source={require('../public/delete.png')} style={styles.arrowUp}/>
-            </TouchableHighlight>, 
-
-            // <TouchableHighlight style={styles.arrowContainer} onPress={() => {
-            //     this.props.moveDown(this.props.index)
-            //     this.swipeable.recenter()}}>
-            //     <Image source={require('../public/arrowup.png')} style={styles.arrowDown}/>
-            // </TouchableHighlight>
+            </TouchableHighlight>
         ]
 
         const spin = this.spinValue.interpolate({
@@ -182,7 +164,8 @@ export default class Hotspot extends Component {
                             }} />
 
                         <View style={styles.hotspotTextContainer}>
-                            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
+                            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}
+                                                underlayColor="rgba(0,0,0,0)">
                                 <Text style={styles.hotspotTitle}>{this.props.name}</Text>
                             </TouchableHighlight>
                             <Text>{this.props.waitingForLocation}</Text>
@@ -227,7 +210,8 @@ export default class Hotspot extends Component {
                             }} />
 
                         <View style={styles.hotspotTextContainer}>
-                            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
+                            <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}
+                                                underlayColor="rgba(0,0,0,0)">
                                 <Text style={styles.hotspotTitle}>{this.props.name}</Text>
                             </TouchableHighlight>
                             <Text>Swipe to fetch route -></Text>
@@ -270,7 +254,8 @@ export default class Hotspot extends Component {
                             }} />
 
                     <View style={styles.hotspotTextContainer}>
-                        <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}>
+                        <TouchableHighlight onPress={() => navigate('HotspotView', { props: this.props, state: this.state } )}
+                                            underlayColor="rgba(0,0,0,0)">
                             <Text style={styles.hotspotTitle}>{this.props.name}</Text>
                         </TouchableHighlight>
 

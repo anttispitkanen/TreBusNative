@@ -99,7 +99,11 @@ export default class MyLocation extends Component {
                 
                 <TouchableHighlight 
                     onPress={() => this.locateMe()}
-                    onLongPress={() => alert('jee')}
+                    
+                    onLongPress={() => {
+                        navigate('ManualLocation', { props: this.props })
+                    }}
+                    
                     underlayColor="rgba(0,0,0,0)">
                     
                     <Text style={styles.locateMe}>Locate me</Text>

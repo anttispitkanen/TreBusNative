@@ -11,7 +11,6 @@ import {
 const Header = () => (
     <Image source={require('../public/bussi.png')} style={styles.backgroundImage}>
       <View style={styles.container}>
-          {/*<Text style={styles.h1}>TreBus</Text>*/}
           <Text style={styles.h1}>Tre</Text>
           <Text style={styles.h1}>Bus</Text>
       </View>

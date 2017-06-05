@@ -35,6 +35,9 @@ TreBusNative TODOs:
 * Create a proper logo with Canva
     * Update icons as well
 
+* All buttons to TouchableHighlights
+    * Or some custom button implementation thingy
+
 
 
 DONEs:
