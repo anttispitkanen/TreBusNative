@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
     View,
     Button,
-    StyleSheet
+    StyleSheet,
+    Text,
+    TouchableHighlight
 } from 'react-native';
 
 
@@ -13,22 +15,28 @@ export default class InfoButton extends Component {
         const { navigate } = this.props.navigation;
 
         return(
-            <View style={styles.infoButton}>
-                <Button
+            <View style={styles.container}>
+                <TouchableHighlight
                     onPress={() => navigate('Info')}
-                    title="What's TreBus?"
-                    accessibilityLabel="Information on TreBus"
-                />
+                    underlayColor="rgba(0,0,0,0)">
+
+                    <Text style={styles.infoButton}>What's TreBus?</Text>
+
+                </TouchableHighlight>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    infoButton: {
+    container: {
         marginBottom: 30,
         flex: 0,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+    },
+    infoButton: {
+        fontSize: 18,
+        color: 'rgb(26,73,243)'
     }
 })

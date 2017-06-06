@@ -2,7 +2,9 @@ TreBusNative TODOs:
 
 * Edit Hotspot
 
+
 * Drag'n'drop re-ordering of hotspots???
+
 
 * HotspotView with multiple next routes
     * Line changes!
@@ -21,19 +23,18 @@ TreBusNative TODOs:
 
 * Pictures in background for Hotspot and AddHotspotForm
 
+
 * Adding custom pictures for each Hotspot (background image and thumbnail)
     * Filepicker
     * Camera usage
 
 
-* Manual input of Location
-
-* Error in resizing form background image when keyboard is open
-
 * ADD REDUX!
+
 
 * Create a proper logo with Canva
     * Update icons as well
+
 
 * All buttons to TouchableHighlights
     * Or some custom button implementation thingy
@@ -53,6 +54,8 @@ DONEs:
 * Some mechanism to avoid unnecessary routing every time the hotspots are rearranged
 * Handling situations where the user is not in Tampere
     * Check if the response.city matches 'Tampere'
+* Manual input of Location
+* Error in resizing form background image when keyboard is open
 
 
 
