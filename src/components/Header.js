@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   container: {
     height: 140,
     justifyContent: 'center',
-    // backgroundColor: '#A31621',
   },
   h1: {
     color: '#FF5',

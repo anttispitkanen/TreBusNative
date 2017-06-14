@@ -32,7 +32,6 @@ export default class Hotspot extends Component {
             distance: null,
             routingInProgress: false
         };
-        
     }
 
 
@@ -79,9 +78,6 @@ export default class Hotspot extends Component {
                     distance: Utils.parseDistance(routeData)
                 })
 
-                // console.log(this.state);
-                
-
             } catch (error) {
                 alert('joku meni vikaan kun haettiin reittiä');
                 console.log(error);
@@ -124,15 +120,16 @@ export default class Hotspot extends Component {
 
     render() {
 
-        // console.log('rendering ' + this.props.name);
-
         const { navigate } = this.props.navigation;
 
         const rightContent = [
-            <TouchableHighlight style={styles.arrowContainer} onPress={() => {
-                // this.props.moveUp(this.props.index)
-                this.delete()
-                this.swipeable.recenter()}}>
+            <TouchableHighlight 
+                style={styles.arrowContainer} 
+                underlayColor="rgba(0,0,0,0)"
+                onPress={() => {
+                    this.delete()
+                    this.swipeable.recenter()
+                }}>
                 <Image source={require('../public/delete.png')} style={styles.arrowUp}/>
             </TouchableHighlight>
         ]
@@ -280,14 +277,6 @@ export default class Hotspot extends Component {
     }
 }
 
-
-/*const ButtonUp = (props) => {
-    <TouchableHighlight onPress={() => {
-        this.props.moveUp()
-    }}>
-        <Text>^</Text>
-    </TouchableHighlight>
-}*/
 
 
 const styles = StyleSheet.create({

@@ -51,7 +51,6 @@ export default class ManualLocation extends Component {
 
                     this.properties.navigation.goBack(null);
                     
-                    
                 }
 
             } catch (error) {

@@ -104,10 +104,19 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs { // ADDED THIS PART TEE POETKOE
+        release {
+            storeFile file(TREBUSNATIVE_RELEASE_STORE_FILE)
+            storePassword(TREBUSNATIVE_RELEASE_STORE_PASSWORD)
+            keyAlias TREBUSNATIVE_RELEASE_KEY_ALIAS
+            keyPassword TREBUSNATIVE_RELEASE_KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release // ADDED THIS PART TEE POETKOE
         }
     }
     // applicationVariants are e.g. debug, release

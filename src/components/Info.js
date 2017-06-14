@@ -32,10 +32,6 @@ export default class Info extends Component {
                     </Text>
 
                     <View style={styles.buttonContainer}>
-                        {/*<Button 
-                            title="See source"
-                            onPress={() => Linking.openURL('https://github.com/anttispitkanen')}
-                        />*/}
 
                         <TouchableHighlight
                             onPress={() => Linking.openURL('https://github.com/anttispitkanen')}
@@ -96,8 +92,3 @@ const styles = StyleSheet.create({
         margin: 10
     }
 })
-
-{/*<TouchableHighlight 
-                    onPress={Linking.openURL('https://github.com/anttispitkanen')}>
-                    GitHub
-                </TouchableHighlight>*/}
