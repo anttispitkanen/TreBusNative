@@ -13,7 +13,7 @@ export default class HotspotArrowButtons extends Component {
     
 
     render() {
-        // threre could be some conditional that removes up arrow from first element and down arrow from last element
+        // threre could be some conditional that removes or disables up arrow from first element and down arrow from last element
         return(
             <View style={styles.buttonContainer}>
                 <TouchableHighlight onPress={() => this.props.moveUp(this.props.index)} style={styles.buttonUpContainer}

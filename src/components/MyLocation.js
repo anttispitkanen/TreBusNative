@@ -27,7 +27,6 @@ export default class MyLocation extends Component {
             address: 'Locating...'
         })
 
-        // THIS WORKS FOR GETTING THE POSITION
         navigator.geolocation.getCurrentPosition(
             async (position) => {
 
@@ -129,7 +128,6 @@ const styles = StyleSheet.create({
         margin: 20
     },
     locateMe: {
-        // backgroundColor: 'yellow',
         paddingTop: 10,
         paddingBottom: 10,
         color: 'rgb(26,73,243)',

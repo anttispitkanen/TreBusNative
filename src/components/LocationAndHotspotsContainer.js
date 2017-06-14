@@ -35,12 +35,6 @@ export default class LocationAndHotspotsContainer extends Component {
             longitude: newLocation.longitude,
             coords: newLocation.coords
         }))
-        // this.setState({
-        //     address: newLocation.address,
-        //     latitude: newLocation.latitude,
-        //     longitude: newLocation.longitude,
-        //     coords: newLocation.coords
-        // })
     }
 
     render() {
