@@ -6,6 +6,7 @@ import {
     TouchableHighlight,
     Text
 } from 'react-native';
+import { API_USER, API_PASS } from 'react-native-dotenv';
 
 import Location from './Location';
 
@@ -22,7 +23,7 @@ export default class MyLocation extends Component {
     }
 
     async locateMe() {
-        
+
         this.props.updateLocation({
             address: 'Locating...'
         })
@@ -38,8 +39,7 @@ export default class MyLocation extends Component {
                     coords: longitude + ',' + latitude
                 })
 
-                const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=reverse_geocode&coordinate=${this.state.coords}&limit=1&epsg_in=wgs84&format=json`;
-                
+                const url = `http://api.publictransport.tampere.fi/prod/?user=${API_USER}&pass=${API_PASS}&request=reverse_geocode&coordinate=${this.state.coords}&limit=1&epsg_in=wgs84&format=json`;
 
                 try {
                     let response = await fetch(url);
@@ -52,7 +52,7 @@ export default class MyLocation extends Component {
 
                     const streetname = responseJSON[0].name;
                     const num = responseJSON[0].details.houseNumber;
-                    
+
                     this.setState({
                         address: streetname + ' ' + num
                     })
@@ -67,12 +67,12 @@ export default class MyLocation extends Component {
                 } catch (error) {
                     alert('It seems you are not in Tampere ¯\\_(ツ)_/¯');
                     console.log(error);
-                    
+
                     this.props.updateLocation({
                         address: null,
                         latitude: null,
                         longitude: null
-                    })   
+                    })
                 }
 
             },
@@ -90,25 +90,25 @@ export default class MyLocation extends Component {
 
         return(
             <View style={styles.container}>
-                <Location 
+                <Location
                     address={this.props.address}
                     latitude={this.props.latitude}
-                    longitude={this.props.longitude} 
+                    longitude={this.props.longitude}
                 />
-                
-                <TouchableHighlight 
+
+                <TouchableHighlight
                     onPress={() => this.locateMe()}
-                    
+
                     onLongPress={() => {
                         navigate('ManualLocation', { props: this.props })
                     }}
-                    
+
                     underlayColor="rgba(0,0,0,0)">
-                    
+
                     <Text style={styles.locateMe}>Locate me</Text>
 
                 </TouchableHighlight>
-                
+
             </View>
         )
     }

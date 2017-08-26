@@ -10,8 +10,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 
-
-
+import { API_USER, API_PASS } from 'react-native-dotenv';
 
 const STORAGE_KEY = '@TreBus:Hotspots';
 
@@ -37,16 +36,16 @@ export default class AddHotspotForm extends Component {
         } catch (error) {
             alert('tapahtui virhe :D')
             console.log(error);
-            
+
         }
     }
 
     async addNewHotspot() {
         if (!this.refs.address._lastNativeText ||
-            !this.refs.name._lastNativeText || 
+            !this.refs.name._lastNativeText ||
             this.refs.address._lastNativeText.length < 3 ||
             this.refs.name._lastNativeText.length < 3) {
-                
+
                 alert('Hotspot name and address must be at least 3 letters long.');
 
             } else {
@@ -55,21 +54,21 @@ export default class AddHotspotForm extends Component {
                 const address = this.refs.address._lastNativeText.trim();
 
                 try {
-                    await this.setState({ 
+                    await this.setState({
                         addressFetchInProgress: true
                     })
 
                     const coords = await this.fetchCoordinatesForHotspot(address);
 
                     if (!coords) {
-                    
+
                         alert('Address must exist in Tampere!');
                         await this.setState({
                             addressFetchInProgress: false
                         })
 
                     } else {
-                        
+
                         const newHotspot = {
                             name: name,
                             address: address,
@@ -78,7 +77,7 @@ export default class AddHotspotForm extends Component {
 
                         if (!this.hotspotExists(name)) {
                             this.props.navigation.state.params.added(newHotspot);
-                        
+
                             this.refs.name.clear();
                             this.refs.address.clear();
 
@@ -88,7 +87,7 @@ export default class AddHotspotForm extends Component {
 
 
                             this.props.navigation.goBack();
-                        
+
                         } else {
                             alert(`There's already a hotspot named ${name}!`)
                         }
@@ -101,24 +100,23 @@ export default class AddHotspotForm extends Component {
                 }
 
             }
-        
     }
 
     // returns true if a hotspot with similar name already exists, false otherwise
     hotspotExists(newName) {
         let alreadyExists = false;
-        
+
         this.state.hotspots.forEach(hotspot => {
             if (hotspot.name === newName) { alreadyExists = true }
         })
-        
+
         return alreadyExists;
     }
 
 
     async fetchCoordinatesForHotspot(address) {
         const formattedAddress = encodeURIComponent(address);
-        const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=geocode&cities=tampere&format=json&key=${formattedAddress}&epsg_out=wgs84`;
+        const url = `http://api.publictransport.tampere.fi/prod/?user=${API_USER}&pass=${API_PASS}&request=geocode&cities=tampere&format=json&key=${formattedAddress}&epsg_out=wgs84`;
 
         try {
             const response = await fetch(url);
@@ -143,7 +141,7 @@ export default class AddHotspotForm extends Component {
         if (this.state.addressFetchInProgress) {
             return (
                 <Text style={{
-                    fontSize: 17, 
+                    fontSize: 17,
                     color: '#FF3',
                     flex: 1,
                     textAlign: 'center',

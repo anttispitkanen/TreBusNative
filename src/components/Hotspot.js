@@ -9,6 +9,7 @@ import {
     Easing,
     Alert
 } from 'react-native';
+import { API_USER, API_PASS } from 'react-native-dotenv';
 
 import Swipeable from 'react-native-swipeable';
 
@@ -16,13 +17,12 @@ import Utils from '../utils/Utils';
 
 import HotspotArrowButtons from './HotspotArrowButtons';
 
-
 export default class Hotspot extends Component {
     constructor(props) {
         super(props);
-        
+
         this.spinValue = new Animated.Value(0);
-        
+
         this.state = {
             thereIn: null,
             departureTime: null,
@@ -45,7 +45,7 @@ export default class Hotspot extends Component {
                 easing: Easing.linear
             }
         ).start(() => {
-            if (this.state.routingInProgress) { 
+            if (this.state.routingInProgress) {
                 this.spin();
             }
         })
@@ -56,14 +56,14 @@ export default class Hotspot extends Component {
         const startCoords = this.props.startCoords;
         if (startCoords) {
             const destCoords = this.props.destCoords;
-            const url = `http://api.publictransport.tampere.fi/prod/?user=anttispitkanen&pass=nysse123&request=route&from=${startCoords}&to=${destCoords}&show=1&Detail=limited&epsg_in=wgs84`;
+            const url = `http://api.publictransport.tampere.fi/prod/?user=${API_USER}&pass=${API_PASS}&request=route&from=${startCoords}&to=${destCoords}&show=1&Detail=limited&epsg_in=wgs84`;
 
             this.spin();
 
             this.setState({
                 routingInProgress: true
             })
-        
+
             try {
                 const response = await fetch(url);
                 const responseJSON = await response.json();
@@ -81,17 +81,15 @@ export default class Hotspot extends Component {
             } catch (error) {
                 alert('joku meni vikaan kun haettiin reittiä');
                 console.log(error);
-                
             }
 
             this.setState({
                 routingInProgress: false
             })
         }
-        
     }
 
-    
+
     moveUp() {
         this.props.moveUp(this.props.index);
     }
@@ -103,7 +101,7 @@ export default class Hotspot extends Component {
             null,
             [
                 {
-                    text: 'Cancel', 
+                    text: 'Cancel',
                     onPress: () => null
                 }, {
                     text: 'Delete',
@@ -123,8 +121,8 @@ export default class Hotspot extends Component {
         const { navigate } = this.props.navigation;
 
         const rightContent = [
-            <TouchableHighlight 
-                style={styles.arrowContainer} 
+            <TouchableHighlight
+                style={styles.arrowContainer}
                 underlayColor="rgba(0,0,0,0)"
                 onPress={() => {
                     this.delete()
@@ -142,7 +140,7 @@ export default class Hotspot extends Component {
         if(this.props.waitingForLocation) {
             return(
                 <Swipeable onRef={ref => this.swipeable = ref}
-                            leftActionActivationDistance={50} 
+                            leftActionActivationDistance={50}
                             onLeftActionRelease={() => {
                                 alert('Location needed for routing')
                             }}
@@ -150,9 +148,9 @@ export default class Hotspot extends Component {
                             rightButtons={rightContent}>
 
                     <View style={styles.hotspot}>
-                    
-                        <Animated.Image 
-                            source={require('../public/trebus.png')} 
+
+                        <Animated.Image
+                            source={require('../public/trebus.png')}
                             style={{
                                 height: 50,
                                 width: 50,
@@ -168,7 +166,7 @@ export default class Hotspot extends Component {
                             <Text>{this.props.waitingForLocation}</Text>
                         </View>
 
-                        <HotspotArrowButtons 
+                        <HotspotArrowButtons
                             index={this.props.index}
                             moveUp={this.props.moveUp}
                             moveDown={this.props.moveDown}
@@ -179,7 +177,7 @@ export default class Hotspot extends Component {
             )
         }
 
-        if(
+        if (
             this.state.thereIn === null ||
             this.state.departureTime === null ||
             this.state.busNumber === null ||
@@ -188,7 +186,7 @@ export default class Hotspot extends Component {
             this.state.distance === null
         ) {
             return(
-                <Swipeable onRef={ref => this.swipeable = ref} 
+                <Swipeable onRef={ref => this.swipeable = ref}
                             leftContent={<Text>Release to fetch route</Text>}
                             leftActionActivationDistance={50}
                             onLeftActionRelease={() => {
@@ -196,9 +194,9 @@ export default class Hotspot extends Component {
                             }}
                             rightButtons={rightContent}>
                     <View style={styles.hotspot}>
-                    
-                        <Animated.Image 
-                            source={require('../public/trebus.png')} 
+
+                        <Animated.Image
+                            source={require('../public/trebus.png')}
                             style={{
                                 height: 50,
                                 width: 50,
@@ -214,7 +212,7 @@ export default class Hotspot extends Component {
                             <Text>Swipe to fetch route -></Text>
                         </View>
 
-                        <HotspotArrowButtons 
+                        <HotspotArrowButtons
                             index={this.props.index}
                             moveUp={this.props.moveUp}
                             moveDown={this.props.moveDown}
@@ -231,18 +229,18 @@ export default class Hotspot extends Component {
         const m = this.state.thereIn.minsText;
 
         return(
-            <Swipeable onRef={ref => this.swipeable = ref} 
+            <Swipeable onRef={ref => this.swipeable = ref}
                         leftContent={<Text>Release to fetch route</Text>}
                         leftActionActivationDistance={50}
                         onLeftActionRelease={() => {
                             this.fetchRoute()
                         }}
                         rightButtons={rightContent}>
-            
+
                 <View style={styles.hotspot}>
 
-                    <Animated.Image 
-                            source={require('../public/trebus.png')} 
+                    <Animated.Image
+                            source={require('../public/trebus.png')}
                             style={{
                                 height: 50,
                                 width: 50,
@@ -263,21 +261,19 @@ export default class Hotspot extends Component {
                         <Text>{this.state.arrivalTime}</Text>
                         <Text>{this.state.distance}</Text>
                     </View>
-                    
-                    <HotspotArrowButtons 
+
+                    <HotspotArrowButtons
                         index={this.props.index}
                         moveUp={this.props.moveUp}
                         moveDown={this.props.moveDown}
                     />
-                    
+
                 </View>
-            
+
             </Swipeable>
         )
     }
 }
-
-
 
 const styles = StyleSheet.create({
     hotspot: {
@@ -308,7 +304,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         borderBottomColor: '#DDD',
         borderBottomWidth: 1
-    }, 
+    },
     arrowUp: {
         height: 33,
         width: 33

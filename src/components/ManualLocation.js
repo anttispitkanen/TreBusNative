@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { 
+import {
     Image,
     Text,
     TextInput,
     TouchableHighlight,
     StyleSheet,
-    View 
+    View
 } from 'react-native';
+import { API_USER, API_PASS } from 'react-native-dotenv';
 
 
 export default class ManualLocation extends Component {
@@ -36,7 +37,7 @@ export default class ManualLocation extends Component {
                     this.setState({
                         addressValidationInProgress: false
                     })
-                
+
                 } else {
                     let longLat = coords.split(',');
                     const longitude = longLat[0];
@@ -50,14 +51,13 @@ export default class ManualLocation extends Component {
                     })
 
                     this.properties.navigation.goBack(null);
-                    
+
                 }
 
             } catch (error) {
                 alert('Invalid address (or network error). Try again.');
                 console.log(error);
             }
-            
 
         } else {
             alert('The address has to be longer than 3 letters')
@@ -68,7 +68,7 @@ export default class ManualLocation extends Component {
 
     async fetchCoords(address) {
         const formattedAddress = encodeURIComponent(address);
-        const url = `http://api.publictransport.tampere.fi/prod/?user=${'anttispitkanen'}&pass=${'nysse123'}&request=geocode&cities=tampere&format=json&key=${formattedAddress}&epsg_out=wgs84`;
+        const url = `http://api.publictransport.tampere.fi/prod/?user=${API_USER}&pass=${API_PASS}&request=geocode&cities=tampere&format=json&key=${formattedAddress}&epsg_out=wgs84`;
 
         try {
             const response = await fetch(url);
@@ -86,7 +86,7 @@ export default class ManualLocation extends Component {
         if (this.state.addressValidationInProgress) {
             return (
                 <Text style={{
-                    fontSize: 17, 
+                    fontSize: 17,
                     color: '#FF3',
                     flex: 1,
                     textAlign: 'center',
@@ -107,7 +107,6 @@ export default class ManualLocation extends Component {
     cancel() {
         this.properties.navigation.goBack(null);
     }
-    
 
     render() {
 
